@@ -9,7 +9,13 @@ body {
 
 #title {
   font-weight: bold;
-  margin: 0 10px 0 10px;
+  margin: 0 10px;
+}
+
+.navi a {
+  padding: 0 5px;
+  text-decoration: none;
+  background-color: #bbf;
 }
 
 #imgarea {
