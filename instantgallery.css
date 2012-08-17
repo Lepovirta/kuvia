@@ -4,9 +4,9 @@ body {
 }
 
 #head {
-  background-color: #eee;
   margin: 0;
   padding: 0;
+  background-color: #eee;
 }
 
 #title {
@@ -14,10 +14,6 @@ body {
   padding: 0 10px;
   background-color: #333;
   color: #eee;
-}
-
-.navi {
-  background-color: #afa;
 }
 
 .navi a {
