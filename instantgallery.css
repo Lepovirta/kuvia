@@ -4,18 +4,29 @@ body {
 }
 
 #head {
-  background-color: #ddd;
+  background-color: #eee;
+  margin: 0;
+  padding: 0;
 }
 
 #title {
   font-weight: bold;
-  margin: 0 10px;
+  padding: 0 10px;
+  background-color: #333;
+  color: #eee;
+}
+
+.navi {
+  background-color: #afa;
 }
 
 .navi a {
   padding: 0 5px;
   text-decoration: none;
-  background-color: #bbf;
+}
+
+#imginfo {
+  padding: 0 10px;
 }
 
 #imgarea {
