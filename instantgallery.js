@@ -6,7 +6,7 @@
   var mk_gallery = function(imagelist, elements) {
     var that = {}, current = 0,
         last = imagelist.length - 1,
-        currentimg;
+        currentimg, callbacks = [];
     var images = imagelist.map(function(imgn) {
       return new_img(imgn);
     });
@@ -16,6 +16,10 @@
         hide(el);
         elements.imgarea.appendChild(el);
       });
+    };
+
+    that.onimagechange = function(fun) {
+      callbacks.push(fun);
     };
 
     that.previous = function() {
@@ -43,6 +47,13 @@
       img.load_img();
       currentimg = img;
       current = num;
+      call_callbacks();
+    };
+
+    var call_callbacks = function() {
+      callbacks.forEach(function(cb) {
+        cb(current + 1, last + 1, currentimg);
+      });
     };
 
     return that;
@@ -76,6 +87,14 @@
     return (navigator.appVersion.indexOf("MSIE") !== -1);
   };
 
+  var load_elems_by_ids = function(ids) {
+    var obj = {};
+    ids.forEach(function(eln) {
+      obj[eln] = doc.getElementById(eln);
+    });
+    return obj;
+  };
+
   var load = function(fun) {
     if (/in/.test(document.readyState)) {
       if (is_ie())
@@ -98,18 +117,17 @@
   };
 
   load(function() {
-    var elements = (function() {
-      var obj = {};
-      elemnames.forEach(function(eln) {
-        obj[eln] = doc.getElementById(eln);
-      });
-      return obj;
-    }());
     var imgl = window.imagelist || imagelist,
+        elements = load_elems_by_ids(elemnames),
         gallery = mk_gallery(imgl, elements);
+
     gallery.init();
-    gallery.load_img(0);
     window.instantgallery = gallery;
+
+    gallery.onimagechange(function(num, total, img) {
+      elements.imginfo.innerHTML = num + "/" + total;
+    });
+
     on_event(window, 'keydown', function(e) {
       switch(e.keyCode) {
       case 37:
@@ -122,13 +140,17 @@
         break;
       }
     });
+
     on_event(elements.previous, 'click', function(e) {
       e.preventDefault();
       gallery.previous();
     });
+
     on_event(elements.next, 'click', function(e) {
       e.preventDefault();
       gallery.next();
     });
+
+    gallery.load_img(0);
   });
 }).call(null, window);
