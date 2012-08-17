@@ -87,6 +87,16 @@
     }
   };
 
+  var on_event = function(el, evname, fun) {
+    if (typeof el.addEventListener === 'function') {
+      el.addEventListener(evname, fun, false);
+    } else if (typeof el.attachEvent === 'function') {
+      el.attachEvent('on'+evname, fun);
+    } else {
+      console.log('Failed to attach event');
+    }
+  };
+
   load(function() {
     var elements = (function() {
       var obj = {};
@@ -100,5 +110,25 @@
     gallery.init();
     gallery.load_img(0);
     window.instantgallery = gallery;
+    on_event(window, 'keydown', function(e) {
+      switch(e.keyCode) {
+      case 37:
+        gallery.previous();
+        break;
+      case 39:
+        gallery.next();
+        break;
+      default:
+        break;
+      }
+    });
+    on_event(elements.previous, 'click', function(e) {
+      e.preventDefault();
+      gallery.previous();
+    });
+    on_event(elements.next, 'click', function(e) {
+      e.preventDefault();
+      gallery.next();
+    });
   });
 }).call(null, window);
