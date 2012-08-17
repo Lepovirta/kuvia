@@ -14,7 +14,7 @@
     that.init = function() {
       images.forEach(function(el) {
         hide(el);
-        elements.imginfo.appendChild(el);
+        elements.imgarea.appendChild(el);
       });
     };
 
