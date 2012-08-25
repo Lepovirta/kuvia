@@ -33,21 +33,21 @@ body {
 
 .sidebar {
   margin: 0;
-  padding: 10px;
+  padding: 0 10px;
   background-color: #224;
   color: #fff;
+  height: 0px;
+  overflow: hidden;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
   -moz-opacity: 0;
   -khtml-opacity: 0;
   opacity: 0;
-  -webkit-transition: visibility 0s linear .25s, opacity .25s;
-  -moz-transition: visibility 0s linear .25s, opacity .25s;
-  -o-transition: visibility 0s linear .25s, opacity .25s;
-  -ms-transition: visibility 0s linear .25s, opacity .25s;
-  transition: visibility 0s linear .25s, opacity .25s;
-  overflow: hidden;
-  visibility: hidden;
+  -webkit-transition: height .25s linear .25s, opacity .25s;
+  -moz-transition: height .25s linear .25s, opacity .25s;
+  -o-transition: height .25s linear .25s, opacity .25s;
+  -ms-transition: height .25s linear .25s, opacity .25s;
+  transition: height .25s linear .25s, opacity .25s;
 }
 
 .sidebar.show {
@@ -61,7 +61,7 @@ body {
   -o-transition: opacity .25s;
   -ms-transition: opacity .25s;
   transition: opacity .25s;
-  visibility: visible;
+  height: 100%;
 }
 
 .sidebar a {
