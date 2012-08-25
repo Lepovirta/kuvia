@@ -199,12 +199,15 @@
       switch(e.keyCode) {
       case 32: // Space
         toggle_sidebar(sidebar);
+        e.preventDefault();
         break;
       case 37: // Left
         gallery.previous();
+        e.preventDefault();
         break;
       case 39: // Right
         gallery.next();
+        e.preventDefault();
         break;
       default:
         break;
