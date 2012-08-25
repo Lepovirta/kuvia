@@ -23,11 +23,21 @@ body {
   color: #eee;
 }
 
+.content {
+  margin: 0;
+  padding: 10px;
+}
+
 .navi a {
   text-decoration: none;
 }
 
 #imginfo {
+}
+
+#linksarea {
+  padding: 0;
+  list-style: none;
 }
 
 #imgarea {

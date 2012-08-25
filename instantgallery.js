@@ -1,7 +1,8 @@
 (function(window, console) {
   var doc = window.document,
       imagelist = [],
-      elemnames = ['previous', 'next', 'imginfo', 'imgarea'];
+      elemnames = ['previous', 'next', 'imginfo',
+                   'imgarea', 'linksarea'];
 
   var mk_gallery = function(imagelist, elements) {
     var that = {}, current = 0,
@@ -9,14 +10,19 @@
         currentimg, callbacks = [], images = [];
 
     that.init = function() {
-      var imgs = doc.createDocumentFragment();
+      var imgs = doc.createDocumentFragment(),
+          links = doc.createDocumentFragment();
       images = imagelist.map(function(imgurl) {
-        var imgobj = new_imgobj(imgurl);
+        var imgobj = new_imgobj(imgurl),
+            liel = doc.createElement('li');
         hide(imgobj.imglink);
         imgs.appendChild(imgobj.imglink);
+        liel.appendChild(imgobj.link);
+        links.appendChild(liel);
         return imgobj;
       });
       elements.imgarea.appendChild(imgs);
+      elements.linksarea.appendChild(links);
     };
 
     that.onimagechange = function(fun) {
@@ -64,8 +70,13 @@
   var new_imgobj = function(src) {
     var obj = {
       src: src,
-      imglink: doc.createElement('a')
-    }, img = doc.createElement('img');
+      imglink: doc.createElement('a'),
+      link: doc.createElement('a')
+    };
+    var img = doc.createElement('img'),
+        text = src.substring(src.lastIndexOf('/')+1, src.length);
+    obj.link.href = src;
+    obj.link.appendChild(doc.createTextNode(text));
     obj.imglink.href = src;
     obj.imglink.appendChild(img);
     obj.load_img = function() {
