@@ -40,6 +40,10 @@ body {
   list-style: none;
 }
 
+#linksarea .show {
+  border: 2px solid #3f3;
+}
+
 #imgarea {
   width: auto;
   height: auto;
@@ -48,4 +52,12 @@ body {
 #imgarea img {
   max-width: 100%;
   max-height: 100%;
+}
+
+#imgarea a {
+  display: none;
+}
+
+#imgarea .show {
+  display: block;
 }

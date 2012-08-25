@@ -15,9 +15,7 @@
       images = imagelist.map(function(imgurl) {
         var imgobj = new_imgobj(imgurl),
             liel = doc.createElement('li');
-        hide(imgobj.imglink);
         imgs.appendChild(imgobj.imglink);
-
         on_event(imgobj.link, 'click', function(e) {
           that.load_img(imgobj);
           e.preventDefault();
@@ -60,8 +58,8 @@
 
       img = images[num];
       if (currentimg)
-        hide(currentimg.imglink);
-      show(img.imglink);
+        currentimg.toggle();
+      img.toggle();
       img.load_img();
       currentimg = img;
       current = num;
@@ -84,8 +82,9 @@
       link: doc.createElement('a')
     };
     var img = doc.createElement('img'),
-        text = src.substring(src.lastIndexOf('/')+1, src.length);
-    obj.link.href = src;
+        text = src.substring(src.lastIndexOf('/')+1, src.length),
+        shown = false;
+    obj.link.href = '#';
     obj.link.appendChild(doc.createTextNode(text));
     obj.imglink.href = src;
     obj.imglink.appendChild(img);
@@ -93,7 +92,31 @@
       if (img.src !== src)
         img.src = src;
     };
+    obj.toggle = function () {
+      if (shown) {
+        remove_class(obj.imglink, 'show');
+        remove_class(obj.link, 'show');
+        shown = false;
+      } else {
+        add_class(obj.imglink, 'show');
+        add_class(obj.link, 'show');
+        shown = true;
+      }
+    };
     return obj;
+  };
+
+  var has_class = function(el, cls) {
+    return el.className.indexOf(cls) >= 0;
+  };
+
+  var remove_class = function(el, cls) {
+    var re = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+    el.className = el.className.replace(re, '');
+  };
+
+  var add_class = function(el, cls) {
+    el.className += ' ' + cls;
   };
 
   var hide = function(el) {
