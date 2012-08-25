@@ -137,10 +137,10 @@
   };
 
   var toggle_sidebar = function(sidebar) {
-    if (sidebar.style.display === 'block')
-      sidebar.style.display = 'none';
-    else
+    if (sidebar.style.display === 'none')
       sidebar.style.display = 'block';
+    else
+      sidebar.style.display = 'none';
   };
 
   var is_ie = function() {
