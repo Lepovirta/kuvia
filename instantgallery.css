@@ -2,14 +2,18 @@ body {
   margin: 0;
   padding: 0;
   background-color: #111;
+  max-height: 100%;
 }
 
 .hoverbar {
+  position: absolute;
   margin: 0;
   padding: 0;
-  position: absolute;
   top: 0;
   right: 0;
+  min-width: 15em;
+  max-height: 100%;
+  overflow-y: auto;
   z-index: 100;
   text-align: right;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
