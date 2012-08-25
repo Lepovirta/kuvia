@@ -6,6 +6,10 @@ body {
 .hoverbar {
   margin: 0;
   padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 11;
 }
 
 .sidebar {
@@ -14,6 +18,7 @@ body {
   max-width: 30%;
   float: left;
   background-color: #eee;
+  z-index: 12;
 }
 
 .title {
@@ -21,6 +26,11 @@ body {
   padding: 0 10px;
   background-color: #333;
   color: #eee;
+}
+
+.title a {
+  color: inherit;
+  text-decoration: inherit;
 }
 
 .content {
@@ -47,6 +57,7 @@ body {
 #imgarea {
   width: auto;
   height: auto;
+  z-index: 10;
 }
 
 #imgarea img {

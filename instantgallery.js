@@ -131,6 +131,18 @@
       el.style.display = param;
   };
 
+  var forEach = function(obj, cb) {
+    for (var i = 0; i < obj.length; i++)
+      cb(obj[i], i, obj);
+  };
+
+  var toggle_sidebar = function(sidebar) {
+    if (sidebar.style.display === 'block')
+      sidebar.style.display = 'none';
+    else
+      sidebar.style.display = 'block';
+  };
+
   var is_ie = function() {
     return (navigator.appVersion.indexOf("MSIE") !== -1);
   };
@@ -154,20 +166,27 @@
     }
   };
 
-  var on_event = function(el, evname, fun) {
-    if (typeof el.addEventListener === 'function') {
-      el.addEventListener(evname, fun, false);
-    } else if (typeof el.attachEvent === 'function') {
-      el.attachEvent('on'+evname, fun);
-    } else {
-      console.log('Failed to attach event');
-    }
+  var on_event = function(obj, evname, fun) {
+    var addevent = function(el, evname, fun) {
+      if (typeof el.addEventListener === 'function') {
+        el.addEventListener(evname, fun, false);
+      } else if (typeof el.attachEvent === 'function') {
+        el.attachEvent('on'+evname, fun);
+      } else {
+        console.log('Failed to attach event', el);
+      }
+    };
+    if (obj instanceof NodeList)
+      forEach(obj, function(el) { addevent(el, evname, fun); });
+    else
+      addevent(obj, evname, fun);
   };
 
   load(function() {
     var imgl = window.imagelist || imagelist,
         elements = load_elems_by_ids(elemnames),
-        gallery = mk_gallery(imgl, elements);
+        gallery = mk_gallery(imgl, elements),
+        sidebar = doc.getElementsByClassName('sidebar')[0];
 
     gallery.init();
     window.instantgallery = gallery;
@@ -178,15 +197,23 @@
 
     on_event(window, 'keydown', function(e) {
       switch(e.keyCode) {
-      case 37:
+      case 32: // Space
+        toggle_sidebar(sidebar);
+        break;
+      case 37: // Left
         gallery.previous();
         break;
-      case 39:
+      case 39: // Right
         gallery.next();
         break;
       default:
         break;
       }
+    });
+
+    on_event(doc.getElementsByClassName('toggle_sidebar'), 'click', function(e) {
+      e.preventDefault();
+      toggle_sidebar(sidebar);
     });
 
     on_event(elements.previous, 'click', function(e) {
