@@ -13,9 +13,9 @@
       var imgs = doc.createDocumentFragment(),
           links = doc.createDocumentFragment();
       images = imagelist.map(function(imgurl) {
-        var imgobj = new_imgobj(imgurl),
+        var imgobj = new_imgobj(imgurl, that.next),
             liel = doc.createElement('li');
-        imgs.appendChild(imgobj.imglink);
+        imgs.appendChild(imgobj.img);
         on_event(imgobj.link, 'click', function(e) {
           that.load_img(imgobj);
           e.preventDefault();
@@ -75,30 +75,29 @@
     return that;
   };
 
-  var new_imgobj = function(src) {
+  var new_imgobj = function(src, onclick) {
     var obj = {
       src: src,
-      imglink: doc.createElement('a'),
+      img: doc.createElement('img'),
       link: doc.createElement('a')
     };
-    var img = doc.createElement('img'),
-        text = src.substring(src.lastIndexOf('/')+1, src.length),
+    var text = src.substring(src.lastIndexOf('/')+1, src.length),
         shown = false;
     obj.link.href = '#';
     obj.link.appendChild(doc.createTextNode(text));
-    obj.imglink.href = src;
-    obj.imglink.appendChild(img);
+    if (typeof onclick === 'function')
+      obj.img.onclick = onclick;
     obj.load_img = function() {
-      if (img.src !== src)
-        img.src = src;
+      if (obj.img.src !== src)
+        obj.img.src = src;
     };
     obj.toggle = function () {
       if (shown) {
-        remove_class(obj.imglink, 'show');
+        remove_class(obj.img, 'show');
         remove_class(obj.link, 'show');
         shown = false;
       } else {
-        add_class(obj.imglink, 'show');
+        add_class(obj.img, 'show');
         add_class(obj.link, 'show');
         shown = true;
       }
