@@ -17,6 +17,11 @@
             liel = doc.createElement('li');
         hide(imgobj.imglink);
         imgs.appendChild(imgobj.imglink);
+
+        on_event(imgobj.link, 'click', function(e) {
+          that.load_img(imgobj);
+          e.preventDefault();
+        });
         liel.appendChild(imgobj.link);
         links.appendChild(liel);
         return imgobj;
@@ -48,7 +53,12 @@
     };
 
     that.load_img = function(num) {
-      var img = images[num];
+      var img;
+      if (typeof num !== 'number')
+        num = images.indexOf(num);
+      if (num < 0) return;
+
+      img = images[num];
       if (currentimg)
         hide(currentimg.imglink);
       show(img.imglink);
@@ -139,7 +149,7 @@
     gallery.init();
     window.instantgallery = gallery;
 
-    gallery.onimagechange(function(num, total, img) {
+    gallery.onimagechange(function(num, total, imgobj) {
       elements.imginfo.innerHTML = num + "/" + total;
     });
 
