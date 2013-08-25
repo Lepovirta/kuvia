@@ -3,6 +3,7 @@ body {
   padding: 0;
   background-color: #111;
   max-height: 100%;
+  font-family: sans-serif;
 }
 
 .hoverbar {
@@ -31,6 +32,7 @@ body {
 }
 
 .title a {
+  display: block;
   color: inherit;
   text-decoration: inherit;
 }
