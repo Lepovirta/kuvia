@@ -23,13 +23,19 @@ that the `img` HTML tag can use as its `src` property.
 
 ## Installing
 
-1. Copy the contents of this repository. You can leave out all the whole
-   `example_images` directory and every file with filename starting with a `.`
-   character.
+1. Copy these files to your destination directory: `index.html`,
+   `instantgallery.css`, `instantgallery.js`, and `list.js`.
 2. Edit `list.js` and replace the list of image sources with your own
    list. Make sure that the list is assigned to `window.imagelist`.
 3. Place the files to where you want to host your image gallery.
 4. (Optional) You can rename `index.html`, if you like.
+
+## Hacking
+
+Instant Gallery is build from `src/` directory using [Browserify][]. If you
+want to modify Instant Gallery the proper way, you first need [Node.JS][],
+[NPM][]. Once you've got those, install Browserify using NPM. You can build the
+project with `build.sh` once you have all the components installed.
 
 ## License
 
@@ -57,3 +63,7 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+[browserify]: http://browserify.org/
+[node.js]: http://nodejs.org/
+[npm]: https://npmjs.org/
