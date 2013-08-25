@@ -1,233 +1,450 @@
-(function(window, console) {
-  var doc = window.document,
-      imagelist = [],
-      elemnames = ['previous', 'next', 'imginfo',
-                   'imgarea', 'linksarea'];
+;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var utils = require('./utils');
 
-  var mk_gallery = function(imagelist, elements) {
-    var that = {}, current = 0,
-        last = imagelist.length - 1,
-        currentimg, callbacks = [], images = [];
+function DomTools(window) {
+  this.window = window;
+}
 
-    that.init = function() {
-      var imgs = doc.createDocumentFragment(),
-          links = doc.createDocumentFragment();
-      images = imagelist.map(function(imgurl) {
-        var imgobj = new_imgobj(imgurl, that.next),
-            liel = doc.createElement('li');
-        imgs.appendChild(imgobj.img);
-        on_event(imgobj.link, 'click', function(e) {
-          that.load_img(imgobj);
-          e.preventDefault();
-        });
-        liel.appendChild(imgobj.link);
-        links.appendChild(liel);
-        return imgobj;
-      });
-      elements.imgarea.appendChild(imgs);
-      elements.linksarea.appendChild(links);
-    };
+DomTools.prototype.isIE = function() {
+  return (window.navigator.appVersion.indexOf("MSIE") !== -1);
+};
 
-    that.onimagechange = function(fun) {
-      callbacks.push(fun);
-    };
+DomTools.prototype.getElementsByIds = function(ids) {
+  var doc = window.document;
+  return utils.mapForKeys(ids, function(id) {
+    return doc.getElementById(id);
+  });
+};
 
-    that.previous = function() {
-      var num = current;
-      if (num === 0)
-        num = last;
-      else
-        num--;
-      that.load_img(num);
-    };
-
-    that.next = function() {
-      var num = current;
-      if (num === last)
-        num = 0;
-      else
-        num++;
-      that.load_img(num);
-    };
-
-    that.load_img = function(num) {
-      var img;
-      if (typeof num !== 'number')
-        num = images.indexOf(num);
-      if (num < 0) return;
-
-      img = images[num];
-      if (currentimg)
-        currentimg.toggle();
-      img.toggle();
-      img.load_img();
-      currentimg = img;
-      current = num;
-      call_callbacks();
-    };
-
-    var call_callbacks = function() {
-      callbacks.forEach(function(cb) {
-        cb(current + 1, last + 1, currentimg);
-      });
-    };
-
-    return that;
-  };
-
-  var new_imgobj = function(src, onclick) {
-    var obj = {
-      src: src,
-      img: doc.createElement('img'),
-      link: doc.createElement('a')
-    };
-    var text = src.substring(src.lastIndexOf('/')+1, src.length),
-        shown = false;
-    obj.link.href = '#';
-    obj.link.appendChild(doc.createTextNode(text));
-    if (typeof onclick === 'function')
-      obj.img.onclick = onclick;
-    obj.load_img = function() {
-      if (obj.img.src !== src)
-        obj.img.src = src;
-    };
-    obj.toggle = function () {
-      if (shown) {
-        remove_class(obj.img, 'show');
-        remove_class(obj.link, 'show');
-        shown = false;
-      } else {
-        add_class(obj.img, 'show');
-        add_class(obj.link, 'show');
-        shown = true;
-      }
-    };
-    return obj;
-  };
-
-  var has_class = function(el, cls) {
-    return el.className.indexOf(cls) >= 0;
-  };
-
-  var remove_class = function(el, cls) {
-    var re = new RegExp('(\\s|^)'+cls+'(\\s|$)');
-    el.className = el.className.replace(re, '');
-  };
-
-  var add_class = function(el, cls) {
-    el.className += ' ' + cls;
-  };
-
-  var hide = function(el) {
-    if (el)
-      el.style.display = 'none';
-  };
-
-  var show = function(el, param) {
-    if (typeof param !== 'string')
-      param = 'inline';
-    if (el)
-      el.style.display = param;
-  };
-
-  var forEach = function(obj, cb) {
-    for (var i = 0; i < obj.length; i++)
-      cb(obj[i], i, obj);
-  };
-
-  var toggle_sidebar = function(sidebar) {
-    if (has_class(sidebar, 'show'))
-      remove_class(sidebar, 'show');
+DomTools.prototype.onLoad = function(fun) {
+  var doc = this.window.document;
+  if (/in/.test(doc.readyState)) {
+    if (this.isIE())
+      window.setTimeout(fun, 9);
     else
-      add_class(sidebar, 'show');
-  };
+      window.setTimeout(fun, 9, false);
+  } else {
+    this.load(fun);
+  }
+};
 
-  var is_ie = function() {
-    return (navigator.appVersion.indexOf("MSIE") !== -1);
-  };
+DomTools.prototype.onKeyDown = function(handlermap) {
+  onEventNoPrevent(window, 'keydown', function(e) {
+    var handler = handlermap[e.keyCode];
+    if (typeof handler === 'function') {
+      handler(e);
+      e.preventDefault();
+    }
+  });
+};
 
-  var load_elems_by_ids = function(ids) {
-    var obj = {};
-    ids.forEach(function(eln) {
-      obj[eln] = doc.getElementById(eln);
+var onEvent = function(obj, evname, fun) {
+  var handler = function(e) {
+    fun(e);
+    e.preventDefault();
+  };
+  onEventNoPrevent(obj, evname, handler);
+};
+
+var onEventNoPrevent = function(obj, evname, fun) {
+  if (obj instanceof NodeList) {
+    utils.forEach(obj, function(el) {
+      addevent(el, evname, fun);
     });
-    return obj;
+  } else {
+    addevent(obj, evname, fun);
+  }
+};
+
+var addevent = function(el, evname, fun) {
+  if (typeof el.addEventListener === 'function') {
+    el.addEventListener(evname, fun, false);
+  } else if (typeof el.attachEvent === 'function') {
+    el.attachEvent('on'+evname, handler);
+  } else {
+    console.log('Failed to attach event', el);
+  }
+};
+
+var hasCssClass = function(element, cssClass) {
+  return element.className.indexOf(cssClass) >= 0;
+};
+
+var addCssClass = function(element, cssClass) {
+  element.className += ' ' + cssClass;
+};
+
+var removeCssClass = function(element, cssClass) {
+  var re = new RegExp('(\\s|^)'+cssClass+'(\\s|$)');
+  element.className = element.className.replace(re, '');
+};
+
+var hide = function(element) {
+  if (element) {
+    element.style.display = 'none';
+  }
+};
+
+var show = function(element, displayType) {
+  if (typeof displayType !== 'string') {
+    displayType = 'inline';
+  }
+  if (element) {
+    element.style.display = displayType;
+  }
+};
+
+var clearNode = function(node) {
+  while (node.hasChildNodes()) {
+    node.removeChild(node.lastChild);
+  }
+};
+
+exports.DomTools = DomTools;
+exports.onEventNoPrevent = onEventNoPrevent;
+exports.onEvent = onEvent;
+exports.hasCssClass = hasCssClass;
+exports.addCssClass = addCssClass;
+exports.removeCssClass = removeCssClass;
+exports.hide = hide;
+exports.show = show;
+exports.clearNode = clearNode;
+
+},{"./utils":7}],2:[function(require,module,exports){
+var StateList = require('./statelist').StateList;
+
+function Gallery(display, imageFactory) {
+  this.display = display;
+  this.imageFactory = imageFactory;
+  this.images = new StateList();
+  display.addNextHandler(this.next.bind(this));
+  display.addPreviousHandler(this.previous.bind(this));
+}
+
+Gallery.prototype.initialize = function(urls) {
+  var that = this;
+  this.images.setList(this.createImages(urls));
+  this.display.setImages(this.images.list);
+  this.showCurrentImage();
+};
+
+Gallery.prototype.createImages = function(urls) {
+  var that = this;
+  var onclick = function () {
+    that.next();
+  };
+  var createImage = function(url) {
+    var image = that.imageFactory(url, onclick);
+    image.addLinkOnClick(function (e) {
+      that.showImage(image);
+    });
+    return image;
   };
 
-  var load = function(fun) {
-    if (/in/.test(document.readyState)) {
-      if (is_ie())
-        window.setTimeout(fun, 9);
-      else
-        window.setTimeout(fun, 9, false);
+  return urls.map(createImage);
+};
+
+Gallery.prototype.showImage = function(image) {
+  this.hideCurrentImage();
+  image.show();
+  this.images.setCurrentItem(image);
+  this.setImageInfo();
+};
+
+Gallery.prototype.hideCurrentImage = function() {
+  this.images.currentItem().hide();
+};
+
+Gallery.prototype.showCurrentImage = function() {
+  this.images.currentItem().show();
+  this.setImageInfo();
+};
+
+Gallery.prototype.next = function() {
+  this.hideCurrentImage();
+  var image = this.images.next();
+  image.show();
+  this.setImageInfo();
+};
+
+Gallery.prototype.previous = function() {
+  this.hideCurrentImage();
+  var image = this.images.previous();
+  image.show();
+  this.setImageInfo();
+};
+
+Gallery.prototype.setImageInfo = function() {
+  var current = this.images.currentIndex + 1;
+  var total = this.images.lastIndex() + 1;
+  this.display.setImageInfoHtml(current + "/" + total);
+};
+
+exports.Gallery = Gallery;
+
+},{"./statelist":6}],3:[function(require,module,exports){
+var dt = require('./domtools');
+
+function Image(document, src, onclick) {
+  this.src = src;
+  this.shown = false;
+  this.text = createTextFromSrc(src);
+  this.image = createImageElement(document, onclick);
+  this.link = createTextLink(document, src, this.text);
+}
+
+var createTextFromSrc = function(src) {
+  return src.substring(src.lastIndexOf('/')+1, src.length);
+};
+
+var createTextLink = function(document, src, text) {
+  var link = document.createElement('a');
+  link.href = '#';
+  link.appendChild(document.createTextNode(text));
+  return link;
+};
+
+var createImageElement = function(document, onclick) {
+  var img = document.createElement('img');
+  if (typeof onclick === 'function') {
+    img.onclick = onclick;
+  }
+  return img;
+};
+
+Image.prototype.loadImage = function() {
+  if (this.image.src !== this.src) {
+    this.image.src = this.src;
+  }
+};
+
+Image.prototype.toggle = function() {
+  if (this.shown) {
+    this.hide();
+  } else {
+    this.show();
+  }
+};
+
+Image.prototype.hide = function() {
+  dt.removeCssClass(this.image, 'show');
+  dt.removeCssClass(this.link, 'show');
+  this.shown = false;
+};
+
+Image.prototype.show = function() {
+  this.loadImage();
+  dt.addCssClass(this.image, 'show');
+  dt.addCssClass(this.link, 'show');
+  this.shown = true;
+};
+
+Image.prototype.setImageOnClick = function(handler) {
+  this.image.onclick = handler;
+};
+
+Image.prototype.addLinkOnClick = function(handler) {
+  dt.onEvent(this.link, 'click', handler);
+};
+
+var imageFactory = function(window) {
+  return function(src, onclick) {
+    return new Image(window.document, src, onclick);
+  };
+};
+
+exports.Image = Image;
+exports.imageFactory = imageFactory;
+
+},{"./domtools":1}],4:[function(require,module,exports){
+var dt = require('./domtools');
+var utils = require('./utils');
+
+var callEach = function(items, args) {
+  utils.forEach(items, function(item) {
+    item.apply(null, args);
+  });
+};
+
+var createView = function(window) {
+  var that = {},
+      domtools = new dt.DomTools(window),
+      elementIds = ['previous', 'next', 'imginfo',
+                    'imgarea', 'linksarea', 'sidebar'],
+      elements = {},
+      nextHandlers = [],
+      previousHandlers = [];
+
+  that.initialize = function() {
+    elements = domtools.getElementsByIds(elementIds);
+    addClickHandlerForElement(elements.next, callNextHandlers);
+    addClickHandlerForElement(elements.previous, callPreviousHandlers);
+    addToggleSideBarHandler();
+    domtools.onKeyDown({
+      32: that.toggleSidebar,
+      37: callPreviousHandlers,
+      39: callNextHandlers
+    });
+  };
+
+  var callNextHandlers = function() {
+    callEach(nextHandlers);
+  };
+
+  var callPreviousHandlers = function() {
+    callEach(previousHandlers);
+  };
+
+  var addClickHandlerForElement = function(element, handler) {
+    dt.onEvent(element, 'click', function(e) {
+      e.preventDefault();
+      handler();
+    });
+  };
+
+  var addToggleSideBarHandler = function() {
+    var togglers = window.document.getElementsByClassName('toggle_sidebar');
+    dt.onEvent(togglers, 'click', that.toggleSidebar);
+  };
+
+  that.toggleSidebar = function() {
+    var sidebar = elements.sidebar;
+    if (dt.hasCssClass(sidebar, 'show')) {
+      dt.removeCssClass(sidebar, 'show');
     } else {
-      load(fun);
+      dt.addCssClass(sidebar, 'show');
     }
   };
 
-  var on_event = function(obj, evname, fun) {
-    var addevent = function(el, evname, fun) {
-      if (typeof el.addEventListener === 'function') {
-        el.addEventListener(evname, fun, false);
-      } else if (typeof el.attachEvent === 'function') {
-        el.attachEvent('on'+evname, fun);
-      } else {
-        console.log('Failed to attach event', el);
-      }
-    };
-    if (obj instanceof NodeList)
-      forEach(obj, function(el) { addevent(el, evname, fun); });
-    else
-      addevent(obj, evname, fun);
+  that.addNextHandler = function(handler) {
+    nextHandlers.push(handler);
   };
 
-  load(function() {
-    var imgl = window.imagelist || imagelist,
-        elements = load_elems_by_ids(elemnames),
-        gallery = mk_gallery(imgl, elements),
-        sidebar = doc.getElementsByClassName('sidebar')[0];
+  that.addPreviousHandler = function(handler) {
+    previousHandlers.push(handler);
+  };
 
-    gallery.init();
+  that.setImageInfoHtml = function(html) {
+    elements.imginfo.innerHTML = html;
+  };
+
+  that.setImages = function(images) {
+    var linksareaFragment = createDocumentFragment(),
+        imgareaFragment = createDocumentFragment();
+
+    utils.forEach(images, function(image) {
+      linksareaFragment.appendChild(createListElement(image.link));
+      imgareaFragment.appendChild(image.image);
+    });
+
+    setChildElement(elements.linksarea, linksareaFragment);
+    setChildElement(elements.imgarea, imgareaFragment);
+  };
+
+  var createListElement = function(element) {
+    var listElement = window.document.createElement('li');
+    listElement.appendChild(element);
+    return listElement;
+  };
+
+  var createDocumentFragment = function() {
+    return window.document.createDocumentFragment();
+  };
+
+  var setChildElement = function(parent, child) {
+    dt.clearNode(parent);
+    parent.appendChild(child);
+  };
+
+  return that;
+};
+
+exports.createView = createView;
+
+},{"./domtools":1,"./utils":7}],5:[function(require,module,exports){
+(function(window, console) {
+  var Gallery = require('./gallery').Gallery,
+      view = require('./instantgalleryview'),
+      image = require('./image'),
+      DomTools = require('./domtools').DomTools;
+
+  var dt = new DomTools(window),
+      factory = image.imageFactory(window),
+      display = view.createView(window),
+      gallery = new Gallery(display, factory);
+
+  dt.onLoad(function() {
+    display.initialize();
+    gallery.initialize(window.imagelist);
     window.instantgallery = gallery;
-
-    gallery.onimagechange(function(num, total, imgobj) {
-      elements.imginfo.innerHTML = num + "/" + total;
-    });
-
-    on_event(window, 'keydown', function(e) {
-      switch(e.keyCode) {
-      case 32: // Space
-        toggle_sidebar(sidebar);
-        e.preventDefault();
-        break;
-      case 37: // Left
-        gallery.previous();
-        e.preventDefault();
-        break;
-      case 39: // Right
-        gallery.next();
-        e.preventDefault();
-        break;
-      default:
-        break;
-      }
-    });
-
-    on_event(doc.getElementsByClassName('toggle_sidebar'), 'click', function(e) {
-      e.preventDefault();
-      toggle_sidebar(sidebar);
-    });
-
-    on_event(elements.previous, 'click', function(e) {
-      e.preventDefault();
-      gallery.previous();
-    });
-
-    on_event(elements.next, 'click', function(e) {
-      e.preventDefault();
-      gallery.next();
-    });
-
-    gallery.load_img(0);
   });
 }).call(null, window, console);
+
+},{"./domtools":1,"./gallery":2,"./image":3,"./instantgalleryview":4}],6:[function(require,module,exports){
+function StateList(listItems) {
+  this.list = listItems;
+  this.currentIndex = 0;
+}
+
+StateList.prototype.setList = function(listItems) {
+  this.list = listItems;
+  this.currentIndex = 0;
+};
+
+StateList.prototype.currentItem = function() {
+  return this.list[this.currentIndex];
+};
+
+StateList.prototype.next = function() {
+  this.setCurrentIndex(this.currentIndex + 1, 0);
+  return this.currentItem();
+};
+
+StateList.prototype.setCurrentIndex = function(index, fallback) {
+  if (this.isIndexOutOfBounds(index)) {
+    this.currentIndex = fallback;
+  } else {
+    this.currentIndex = index;
+  }
+};
+
+StateList.prototype.isIndexOutOfBounds = function(index) {
+  return index < 0 || index > this.lastIndex();
+};
+
+StateList.prototype.lastIndex = function() {
+  return this.list.length - 1;
+};
+
+StateList.prototype.previous = function() {
+  this.setCurrentIndex(this.currentIndex - 1, this.lastIndex());
+  return this.currentItem();
+};
+
+StateList.prototype.setCurrentItem = function(item) {
+  var index = this.list.indexOf(item);
+  this.setCurrentIndex(index, this.currentIndex);
+};
+
+exports.StateList = StateList;
+
+},{}],7:[function(require,module,exports){
+var forEach = function(obj, cb) {
+  for (var i = 0; i < obj.length; i++) {
+    cb(obj[i], i, obj);
+  }
+};
+
+var mapForKeys = function(items, cb) {
+  var obj = {};
+  forEach(items, function(item) {
+    obj[item] = cb(item);
+  });
+  return obj;
+};
+
+exports.forEach = forEach;
+exports.mapForKeys = mapForKeys;
+
+},{}]},{},[5])
+;

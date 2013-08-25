@@ -37,7 +37,7 @@ body {
   text-decoration: inherit;
 }
 
-.sidebar {
+#sidebar {
   margin: 0;
   padding: 0 10px;
   background-color: #224;
@@ -56,7 +56,7 @@ body {
   transition: height .25s linear .25s, opacity .25s;
 }
 
-.sidebar.show {
+#sidebar.show {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
   filter: alpha(opacity=90);
   -moz-opacity: 0.9;
@@ -70,12 +70,12 @@ body {
   height: 100%;
 }
 
-.sidebar a {
+#sidebar a {
   text-decoration: none;
   color: #8f8;
 }
 
-.sidebar a:hover {
+#sidebar a:hover {
   background-color: #4a4;
   color: #222;
 }
