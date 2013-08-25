@@ -1,3 +1,3 @@
 #!/bin/sh
 
-browserify src/main.js -o instantgallery.js
+browserify src/main.js | uglifyjs > instantgallery.js
