@@ -112,3 +112,23 @@ body {
 #imgarea .show {
   display: block;
 }
+
+#helpbox {
+  display: none;
+  background-color: #446;
+  color: #fff;
+  padding: 10px;
+}
+
+#helpbox h1 {
+  margin-top: 0;
+}
+
+#helpbox ul {
+  list-style: none;
+  margin-bottom: 0;
+}
+
+#helpbox.show {
+  display: block;
+}

@@ -10,22 +10,28 @@ var callEach = function(items, args) {
 var createView = function(window) {
   var that = {},
       domtools = new dt.DomTools(window),
-      elementIds = ['previous', 'next', 'imginfo',
-                    'imgarea', 'linksarea', 'sidebar'],
+      elementIds = ['previous', 'next', 'imginfo', 'imgarea',
+                    'linksarea', 'sidebar', 'helpbox', 'helplink'],
       elements = {},
       nextHandlers = [],
       previousHandlers = [];
 
   that.initialize = function() {
     elements = domtools.getElementsByIds(elementIds);
-    addClickHandlerForElement(elements.next, callNextHandlers);
-    addClickHandlerForElement(elements.previous, callPreviousHandlers);
-    addToggleSideBarHandler();
+    addClickHandler(elements.next, callNextHandlers);
+    addClickHandler(elements.previous, callPreviousHandlers);
+    addClickHandler(elements.helplink, toggleHelp);
+    addClickHandler(getSideBarTogglers(), that.toggleSidebar);
     domtools.onKeyDown({
       32: that.toggleSidebar,
       37: callPreviousHandlers,
-      39: callNextHandlers
+      39: callNextHandlers,
+      72: toggleHelp
     });
+  };
+
+  var addClickHandler = function(element, handler) {
+    dt.onEvent(element, 'click', handler);
   };
 
   var callNextHandlers = function() {
@@ -36,25 +42,20 @@ var createView = function(window) {
     callEach(previousHandlers);
   };
 
-  var addClickHandlerForElement = function(element, handler) {
-    dt.onEvent(element, 'click', function(e) {
-      e.preventDefault();
-      handler();
-    });
+  var toggleHelp = function() {
+    toggleElement(elements.helpbox);
   };
 
-  var addToggleSideBarHandler = function() {
-    var togglers = window.document.getElementsByClassName('toggle_sidebar');
-    dt.onEvent(togglers, 'click', that.toggleSidebar);
+  var toggleElement = function(element) {
+    dt.toggleCssClass(element, 'show');
+  };
+
+  var getSideBarTogglers = function() {
+    return window.document.getElementsByClassName('toggle_sidebar');
   };
 
   that.toggleSidebar = function() {
-    var sidebar = elements.sidebar;
-    if (dt.hasCssClass(sidebar, 'show')) {
-      dt.removeCssClass(sidebar, 'show');
-    } else {
-      dt.addCssClass(sidebar, 'show');
-    }
+    toggleElement(elements.sidebar);
   };
 
   that.addNextHandler = function(handler) {

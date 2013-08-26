@@ -78,6 +78,14 @@ var removeCssClass = function(element, cssClass) {
   element.className = element.className.replace(re, '');
 };
 
+var toggleCssClass = function(element, cssClass) {
+  if (hasCssClass(element, cssClass)) {
+    removeCssClass(element, cssClass);
+  } else {
+    addCssClass(element, cssClass);
+  }
+};
+
 var hide = function(element) {
   if (element) {
     element.style.display = 'none';
@@ -105,6 +113,7 @@ exports.onEvent = onEvent;
 exports.hasCssClass = hasCssClass;
 exports.addCssClass = addCssClass;
 exports.removeCssClass = removeCssClass;
+exports.toggleCssClass = toggleCssClass;
 exports.hide = hide;
 exports.show = show;
 exports.clearNode = clearNode;
