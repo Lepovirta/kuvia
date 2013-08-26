@@ -2,17 +2,16 @@ var dt = require('./domtools');
 
 function Image(document, src, onclick) {
   this.src = src;
-  this.shown = false;
   this.text = createTextFromSrc(src);
   this.image = createImageElement(document, onclick);
-  this.link = createTextLink(document, src, this.text);
+  this.link = createTextLink(document, this.text);
 }
 
 var createTextFromSrc = function(src) {
   return src.substring(src.lastIndexOf('/')+1, src.length);
 };
 
-var createTextLink = function(document, src, text) {
+var createTextLink = function(document, text) {
   var link = document.createElement('a');
   link.href = '#';
   link.appendChild(document.createTextNode(text));
@@ -33,25 +32,15 @@ Image.prototype.loadImage = function() {
   }
 };
 
-Image.prototype.toggle = function() {
-  if (this.shown) {
-    this.hide();
-  } else {
-    this.show();
-  }
-};
-
 Image.prototype.hide = function() {
   dt.removeCssClass(this.image, 'show');
   dt.removeCssClass(this.link, 'show');
-  this.shown = false;
 };
 
 Image.prototype.show = function() {
   this.loadImage();
   dt.addCssClass(this.image, 'show');
   dt.addCssClass(this.link, 'show');
-  this.shown = true;
 };
 
 Image.prototype.setImageOnClick = function(handler) {
