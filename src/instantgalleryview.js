@@ -10,23 +10,22 @@ var callEach = function(items, args) {
 var createView = function(window) {
   var that = {},
       domtools = new dt.DomTools(window),
-      elementIds = ['previous', 'next', 'imginfo', 'imgarea',
-                    'linksarea', 'sidebar', 'helpbox', 'helplink'],
+      elementIds = ['imginfo', 'imgarea', 'linksarea', 'sidebar', 'toolbar'],
       elements = {},
       nextHandlers = [],
       previousHandlers = [];
 
   that.initialize = function() {
     elements = domtools.getElementsByIds(elementIds);
-    addClickHandler(elements.next, callNextHandlers);
-    addClickHandler(elements.previous, callPreviousHandlers);
-    addClickHandler(elements.helplink, toggleHelp);
-    addClickHandler(getSideBarTogglers(), that.toggleSidebar);
+    addClickHandler(getByClassName('next_image'), callNextHandlers);
+    addClickHandler(getByClassName('previous_image'), callPreviousHandlers);
+    addClickHandler(getByClassName('toggle_toolbar'), toggleToolbar);
+    addClickHandler(getByClassName('toggle_sidebar'), that.toggleSidebar);
     domtools.onKeyDown({
       32: that.toggleSidebar,
       37: callPreviousHandlers,
       39: callNextHandlers,
-      72: toggleHelp
+      72: toggleToolbar
     });
   };
 
@@ -42,16 +41,16 @@ var createView = function(window) {
     callEach(previousHandlers);
   };
 
-  var toggleHelp = function() {
-    toggleElement(elements.helpbox);
+  var toggleToolbar = function() {
+    toggleElement(elements.toolbar);
   };
 
   var toggleElement = function(element) {
     dt.toggleCssClass(element, 'show');
   };
 
-  var getSideBarTogglers = function() {
-    return window.document.getElementsByClassName('toggle_sidebar');
+  var getByClassName = function(className) {
+    return window.document.getElementsByClassName(className);
   };
 
   that.toggleSidebar = function() {

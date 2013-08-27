@@ -19,22 +19,25 @@
       </div>
       <div id="sidebar">
         <ul class="navi">
-          <li><a id="previous" href="#">previous</a></li>
-          <li><a id="next" href="#">next</a></li>
-          <li><a href="#" class="toggle_sidebar">hide</a></li>
-          <li><a id="helplink" href="#">help</a></li>
+          <li><a class="previous_image" href="#">previous</a></li>
+          <li><a class="next_image" href="#">next</a></li>
+          <li><a class="toggle_sidebar" href="#">hide</a></li>
+          <li><a class="toggle_toolbar" href="#">toolbar</a></li>
+          <li><a href="http://jkpl.lepovirta.org/">jkpl</a></li>
+          <li><a href="http://github.com/jkpl/instantgallery">instant gallery</a></li>
         </ul>
+        Images
         <ul id="linksarea"></ul>
       </div>
     </div>
-    <div id="helpbox">
-      <h1>Instant Gallery help</h1>
-      <ul>
-        <li>&larr; = previous image</li>
-        <li>&rarr; = next image</li>
-        <li>H = show/hide this help</li>
-        <li>space = show/hide side bar</li>
-        <li>click the image = next image</li>
+    <div id="toolbar" class="show">
+      <ul class="navi">
+        <li><a class="previous_image" href="#">&larr;</a></li>
+        <li><a class="next_image" href="#">&rarr;</a></li>
+        <li><a class="toggle_sidebar" href="#"
+               title="hotkey: space">list</a></li>
+        <li><a class="toggle_toolbar" href="#"
+               title="hotkey: H">hide</a></li>
       </ul>
     </div>
     <div id="imgarea"></div>
