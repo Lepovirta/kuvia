@@ -89,8 +89,8 @@ html, body {
   border: 1px solid black;
   color: #111;
   padding: 5px;
-  width: 200px;
-  left: -300px;
+  width: 100px;
+  left: -200px;
   text-align: center;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
   filter: alpha(opacity=80);
