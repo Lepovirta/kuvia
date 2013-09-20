@@ -55,9 +55,9 @@ var onEventNoPrevent = function(obj, evname, fun) {
   }
 };
 
-var addevent = function(el, evname, fun) {
+var addevent = function(el, evname, handler) {
   if (typeof el.addEventListener === 'function') {
-    el.addEventListener(evname, fun, false);
+    el.addEventListener(evname, handler, false);
   } else if (typeof el.attachEvent === 'function') {
     el.attachEvent('on'+evname, handler);
   } else {
