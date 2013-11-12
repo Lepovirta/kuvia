@@ -30,7 +30,15 @@ var createView = function(window) {
   };
 
   var addClickHandler = function(element, handler) {
-    dt.onEvent(element, 'click', handler);
+    var addclickhandler = function(el) {
+      dt.onEvent(el, 'click', handler);
+    };
+
+    if (element instanceof HTMLCollection) {
+      utils.forEach(element, addclickhandler);
+    } else {
+      addclickhandler(element);
+    }
   };
 
   var callNextHandlers = function() {
