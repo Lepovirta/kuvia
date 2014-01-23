@@ -36,9 +36,11 @@ that the `img` HTML tag can use as its `src` property.
 Instant Gallery is build from `src/` directory using [Browserify][],
 [UglifyJS][] and [UglifyCSS][]. The page layout is compiled from `page.jade`
 using [Jade][]. If you want to modify Instant Gallery the proper way, you first
-need [Node.JS][], [NPM][]. Once you've got those, install Browserify, UglifyJS,
-UglifyCSS, and Jade using NPM.
+need to have [Node.JS][] and [NPM][] installed. Once you've got those, install
+Browserify, UglifyJS, UglifyCSS, and Jade using NPM in the directory where you
+have cloned this repository to.
 
+    $ cd /path/to/instantgallery/
     $ npm install browserify uglify-js uglifycss jade
 
 You can build the project with `build.js` once you have all the components
@@ -50,7 +52,7 @@ installed.
 
 (2-clause BSD license)
 
-Copyright (c) 2012, Jaakko Pallari
+Copyright (c) 2012-2014, Jaakko Pallari
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
