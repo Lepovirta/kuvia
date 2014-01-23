@@ -23,20 +23,28 @@ that the `img` HTML tag can use as its `src` property.
 
 ## Installing
 
-1. Copy these files: `index.html`, `instantgallery.css`, `instantgallery.js`,
-   and `list.js`.
+1. Copy either one of these sets of files:
+  * `single.html` and `list.js`
+  * `multi.html`, `instantgallery.css`, `instantgallery.js`, and `list.js`.
 2. Edit `list.js` and replace the list of image sources with your own
    list. Make sure that the list is assigned to `window.imagelist`.
-3. Place the files to where you want to host your image gallery.
-4. (Optional) You can rename `index.html`, if you like.
+3. Place the copied files to where you want to host your image gallery.
+4. (Optional) You can rename `multi.html`/`single.html`, if you like.
 
-## Hacking
+## Extending the script
 
-Instant Gallery is build from `src/` directory using [Browserify][] and
-[UglifyJS][]. If you want to modify Instant Gallery the proper way, you first
-need [Node.JS][], [NPM][]. Once you've got those, install Browserify and
-UglifyJS using NPM. You can build the project with `build.sh` once you have all
-the components installed.
+Instant Gallery is build from `src/` directory using [Browserify][],
+[UglifyJS][] and [UglifyCSS][]. The page layout is compiled from `page.jade`
+using [Jade][]. If you want to modify Instant Gallery the proper way, you first
+need [Node.JS][], [NPM][]. Once you've got those, install Browserify, UglifyJS,
+UglifyCSS, and Jade using NPM.
+
+    $ npm install browserify uglify-js uglifycss jade
+
+You can build the project with `build.js` once you have all the components
+installed.
+
+    $ node build.js
 
 ## License
 
@@ -67,5 +75,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 [browserify]: http://browserify.org/
 [uglifyjs]: https://github.com/mishoo/UglifyJS2
+[uglifycss]: https://github.com/fmarcia/UglifyCSS
+[jade]: http://jade-lang.com/
 [node.js]: http://nodejs.org/
 [npm]: https://npmjs.org/

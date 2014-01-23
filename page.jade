@@ -1,0 +1,41 @@
+doctype html
+html(lang="en")
+  head
+    title Instant Gallery
+    meta(charset="utf-8")
+    if cssSrc
+      link(rel="stylesheet", type="text/css" href=cssSrc)
+    else
+      style!= igCss
+    script(type="application/javascript", src=listSrc)
+    if igSrc
+      script(type="application/javascript", src=igSrc)
+    else
+      script(type="application/javascript")!= igJs
+    base(target="_blank")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+  body
+    div(class="hoverbar")
+      div(class="title")
+        a(href="#", class="toggle_sidebar")
+          span Instant Gallery
+          span(id="imginfo")
+      div(id="sidebar")
+        ul(class="navi")
+          li
+            a(class="toggle_toolbar", href="#", title="hotkey: H") toolbar
+          li
+            a(href="http://jkpl.lepovirta.org") jkpl
+          li
+            a(href="http://github.com/jkpl/instantgallery") instant gallery
+        span Images
+        ul(id="linksarea")
+    div(id="toolbar", class="show")
+      ul(class="navi")
+        li
+          a(class="previous_image", href="#", title="hotkey: left arrow") &larr;
+        li
+          a(class="next_image", href="#", title="hotkey: right arrow") &rarr;
+        li
+          a(class="toggle_sidebar", href="#", title="hotkey: space") list
+    div(id="imgarea")
