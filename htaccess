@@ -1,0 +1,4 @@
+# Useful for PHP version of Instant Gallery
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ instantgallery.php?dorewrite=1&dir=$1 [L,QSA]

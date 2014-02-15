@@ -1,5 +1,6 @@
 <!DOCTYPE html><html lang="en"><head><title>Instant Gallery</title><meta charset="utf-8"><style>html,body{height:100%;margin:0;padding:0;background-color:#eee;max-height:100%;font-family:sans-serif}.hoverbar{position:absolute;margin:0;padding:0;top:0;right:0;min-width:15em;max-height:100%;overflow-y:auto;z-index:100;text-align:right;-ms-filter:"alpha(opacity=90)";filter:alpha(opacity=90);-moz-opacity:.9;-khtml-opacity:.9;opacity:.9}.title{font-weight:bold;padding:2px 10px;background-color:#44d;color:#fff}.title a{display:block;color:inherit;text-decoration:inherit}#sidebar{margin:0;padding:0 10px;background-color:#fff;color:#111;height:0;overflow:hidden;-ms-filter:"alpha(opacity=0)";filter:alpha(opacity=0);-moz-opacity:0;-khtml-opacity:0;opacity:0;-webkit-transition:height .25s linear .25s,opacity .25s;-moz-transition:height .25s linear .25s,opacity .25s;-o-transition:height .25s linear .25s,opacity .25s;-ms-transition:height .25s linear .25s,opacity .25s;transition:height .25s linear .25s,opacity .25s}#sidebar.show{height:100%;-ms-filter:"alpha(opacity=90)";filter:alpha(opacity=90);-moz-opacity:.9;-khtml-opacity:.9;opacity:.9;-webkit-transition:opacity .25s;-moz-transition:opacity .25s;-o-transition:opacity .25s;-ms-transition:opacity .25s;transition:opacity .25s}#sidebar a{text-decoration:none;color:#22f}#sidebar a:hover{background-color:#44e;color:#fff}#toolbar{position:fixed;margin:auto;bottom:2em;background-color:#fff;border:1px solid black;color:#111;padding:5px;width:100px;left:-200px;text-align:center;-ms-filter:"alpha(opacity=80)";filter:alpha(opacity=80);-moz-opacity:.8;-khtml-opacity:.8;opacity:.8;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-transition:left .25s;-moz-transition:left .25s;-o-transition:left .25s;-ms-transition:left .25s;transition:left .25s}#toolbar h1{margin-top:0}#toolbar.show{left:100px;height:auto;-webkit-transition:left .25s;-moz-transition:left .25s;-o-transition:left .25s;-ms-transition:left .25s;transition:left .25s}#toolbar ul{list-style:none;margin:0;padding:0}#toolbar ul li{display:inline}#toolbar a{text-decoration:none;color:#22f;padding:5px}#toolbar a:hover{background-color:#44e;color:#fff}#sidebar .navi,#linksarea{padding:0;margin:0 0 10px 0;list-style:none}#linksarea .show{background-color:#22f;color:#fff}#imgarea{height:100%}#imgarea img{max-width:100%;max-height:100%}#imgarea img{display:none}#imgarea .show{display:block}</style><script type="application/javascript"><?php
 $image_filepattern = '/^.*\.jpg$/';
+$rewrite_enabled = isset($_GET['dorewrite']);
 
 function get_query_var($varname, $alternative) {
   return isset($_GET[$varname]) && !empty($_GET[$varname])
@@ -25,7 +26,11 @@ function is_image($fname) {
 }
 
 function format_filename($dir, $fname) {
-  $fpath = join('/', array($dir, $fname));
+  global $rewrite_enabled;
+  if ($rewrite_enabled)
+    $fpath = $fname;
+  else
+    $fpath = join('/', array($dir, $fname));
   echo "\"" . $fpath . "\"";
 }
 

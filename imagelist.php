@@ -1,5 +1,6 @@
 <?php
 $image_filepattern = '/^.*\.jpg$/';
+$rewrite_enabled = isset($_GET['dorewrite']);
 
 function get_query_var($varname, $alternative) {
   return isset($_GET[$varname]) && !empty($_GET[$varname])
@@ -25,7 +26,11 @@ function is_image($fname) {
 }
 
 function format_filename($dir, $fname) {
-  $fpath = join('/', array($dir, $fname));
+  global $rewrite_enabled;
+  if ($rewrite_enabled)
+    $fpath = $fname;
+  else
+    $fpath = join('/', array($dir, $fname));
   echo "\"" . $fpath . "\"";
 }
 
