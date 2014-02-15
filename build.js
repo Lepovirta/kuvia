@@ -7,12 +7,15 @@ var fs = require("fs"),
 var cssFile = "instantgallery.css",
     listFile = "list.js",
     igSourceFile = "instantgallery.js",
+    listPhpFile = "imagelist.php",
     mainFile = "./src/main.js",
     jadePageFile = "page.jade",
     multiFile = "multi.html",
     singleFile = "single.html",
+    phpFile = "instantgallery.php",
     igCss = uglifycss.processFiles([cssFile]),
-    jadePage = fs.readFileSync(jadePageFile);
+    jadePage = fs.readFileSync(jadePageFile),
+    phpListJs = fs.readFileSync(listPhpFile);
 
 var bundle = new Browserify(mainFile);
 
@@ -62,10 +65,22 @@ function writeSinglePage(source) {
     "Wrote single file HTML to " + singleFile);
 }
 
+function writePhpGalleryPage(source) {
+  var opts = {
+    igCss: igCss,
+    listJs: phpListJs,
+    igJs: source
+  };
+  writeJadePageToFile(
+    phpFile, opts,
+    "Wrote PHP gallery file to " + phpFile);
+}
+
 bundle.bundle({}, function(err, source) {
   if (err) throw err;
   var minified = minify(source);
   writeInstantGallery(minified);
   writeMultiPage();
   writeSinglePage(minified);
+  writePhpGalleryPage(minified);
 });
