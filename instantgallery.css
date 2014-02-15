@@ -32,6 +32,10 @@ html, body {
   color: #fff;
 }
 
+.title .title-name {
+  margin-right: 10px;
+}
+
 .title a {
   display: block;
   color: inherit;
