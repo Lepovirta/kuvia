@@ -38,7 +38,7 @@ function print_directory_images($dir) {
   $filelist = array_filter(scandir($dir), "is_image");
   if (empty($filelist)) return;
 
-  $init = array_slice($filelist, 0, count($filelist));
+  $init = array_slice($filelist, 0, count($filelist) - 1);
   $last = end($filelist);
 
   foreach($init as $fname) {
