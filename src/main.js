@@ -1,4 +1,4 @@
-(function(window, console) {
+(function(window) {
   var Gallery = require('./gallery').Gallery,
       view = require('./instantgalleryview'),
       image = require('./image'),
@@ -10,8 +10,14 @@
       gallery = new Gallery(display, factory);
 
   dt.onLoad(function() {
-    display.initialize();
-    gallery.initialize(window.imagelist);
-    window.instantgallery = gallery;
+    var images = window.imagelist;
+
+    if (images && images.length > 0) {
+      display.initialize();
+      gallery.initialize(images);
+      window.instantgallery = gallery;
+    } else {
+      display.showNoImagesWarning();
+    }
   });
-}).call(null, window, console);
+}).call(null, window);

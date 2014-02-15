@@ -1,5 +1,5 @@
 <?php
-$image_filepattern = '/^.*\.jpg$/';
+$image_filepattern = '/^.*[.](jpg|png|gif|jpeg)$/i';
 $rewrite_enabled = isset($_GET['dorewrite']);
 
 function get_query_var($varname, $alternative) {
@@ -36,6 +36,8 @@ function format_filename($dir, $fname) {
 
 function print_directory_images($dir) {
   $filelist = array_filter(scandir($dir), "is_image");
+  if (empty($filelist)) return;
+
   $init = array_slice($filelist, 0, count($filelist));
   $last = end($filelist);
 

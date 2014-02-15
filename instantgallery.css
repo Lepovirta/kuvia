@@ -173,3 +173,7 @@ html, body {
 #imgarea .show {
   display: block;
 }
+
+#noimageswarning {
+  display: none;
+}

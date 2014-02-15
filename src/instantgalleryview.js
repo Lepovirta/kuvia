@@ -105,6 +105,11 @@ var createView = function(window) {
     parent.appendChild(child);
   };
 
+  that.showNoImagesWarning = function() {
+    var warning = window.document.getElementById('noimageswarning');
+    dt.show(warning, 'block');
+  };
+
   return that;
 };
 
