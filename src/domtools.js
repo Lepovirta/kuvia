@@ -28,7 +28,7 @@ DomTools.prototype.onLoad = function(fun) {
 };
 
 DomTools.prototype.onKeyDown = function(handlermap) {
-  onEventNoPrevent(window, 'keydown', function(e) {
+  onEventNoPrevent(this.window, 'keydown', function(e) {
     var handler = handlermap[e.keyCode];
     if (typeof handler === 'function') {
       handler(e);
@@ -107,7 +107,34 @@ var clearNode = function(node) {
   }
 };
 
+function xhr() {
+  if (typeof XMLHttpRequest !== 'undefined') {
+    return new XMLHttpRequest();
+  } else {
+    return new ActiveXObject("Microsoft.XMLHTTP");
+  }
+}
+
+function ajax(opts) {
+  var x = xhr();
+
+  x.onreadystatechange = function() {
+    if (x.readyState === 4) {
+      opts.callback(x);
+    }
+  };
+
+  x.open(opts.method || 'GET', opts.url, true);
+
+  if (typeof opts.data !== 'undefined') {
+    x.send(opts.data);
+  } else {
+    x.send();
+  }
+};
+
 exports.DomTools = DomTools;
+exports.ajax = ajax;
 exports.onEventNoPrevent = onEventNoPrevent;
 exports.onEvent = onEvent;
 exports.hasCssClass = hasCssClass;

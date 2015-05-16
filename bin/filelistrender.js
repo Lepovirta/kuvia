@@ -17,7 +17,7 @@ function renderString(s) {
 }
 
 function renderTargetAssign(s) {
-  return targetVariable + ' = ' + s;
+  return targetVariable + ' = ' + s + ";";
 }
 
 function readPhpImageList() {
@@ -30,7 +30,7 @@ function renderFileList(options, filelistSource) {
   }
 
   if (options.url) {
-    return Q(renderTargetVariable(renderString(options.url)));
+    return Q(renderTargetAssign(renderString(options.url)));
   }
 
   return filelistSource()
