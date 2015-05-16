@@ -10,49 +10,26 @@ a single page. In this page, browsing the images is as easy as pressing left
 and right keys. This way I can host a simple photo gallery on pretty much any
 platform that supports serving static files.
 
-## How it works
+## Usage
 
-Since Instant Gallery can't automatically read any lists other than what is
-provided in JS, the list of image locations are provided as a JS array. Instant
-Gallery reads `windows.imagelist` for a list of image sources after the page
-has loaded.
-
-Edit the `list.js` file, and replace the contents of `window.imagelist` array
-with all the image files you wish to use. You can use whatever source format
-that the `img` HTML tag can use as its `src` property.
-
-## Installing
-
-1. Copy either one of these sets of files:
-  * `single.html` and `list.js`
-  * `multi.html`, `instantgallery.css`, `instantgallery.js`, and `list.js`.
-2. Edit `list.js` and replace the list of image sources with your own
-   list. Make sure that the list is assigned to `window.imagelist`.
-3. Place the copied files to where you want to host your image gallery.
-4. (Optional) You can rename `multi.html`/`single.html`, if you like.
-
-## Extending the script
-
-Instant Gallery is build from `src/` directory using [Browserify][],
-[UglifyJS][] and [UglifyCSS][]. The page layout is compiled from `page.jade`
-using [Jade][]. If you want to modify Instant Gallery the proper way, you first
-need to have [Node.JS][] and [NPM][] installed. Once you've got those, install
-Browserify, UglifyJS, UglifyCSS, and Jade using NPM in the directory where you
-have cloned this repository to.
-
-    $ cd /path/to/instantgallery/
-    $ npm install browserify uglify-js uglifycss jade
-
-You can build the project with `build.js` once you have all the components
-installed.
-
-    $ node build.js
+    -h, --help           display this help
+    -u, --url=ARG        Custom URL source for images
+    -P, --php            Generate PHP version of Instant Gallery
+    -d, --dir=ARG        Directory to scan for images
+    -r, --recursive      Recursively scan directory for images
+    -p, --path=ARG       Path to prepend to scanned images
+    -g, --glob=ARG       Glob pattern for image files
+    -f, --file=ARG+      Files to include in the file list
+    -t, --filetypes=ARG  File types to include in directory scanning
+    -M, --no-min         Disable minimization
+    -C, --css=ARG        Custom CSS file
+        --css-url=ARG    Custom CSS url
 
 ## License
 
 (2-clause BSD license)
 
-Copyright (c) 2012-2014, Jaakko Pallari
+Copyright (c) 2012-2015, Jaakko Pallari
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -75,9 +52,3 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-[browserify]: http://browserify.org/
-[uglifyjs]: https://github.com/mishoo/UglifyJS2
-[uglifycss]: https://github.com/fmarcia/UglifyCSS
-[jade]: http://jade-lang.com/
-[node.js]: http://nodejs.org/
-[npm]: https://npmjs.org/
