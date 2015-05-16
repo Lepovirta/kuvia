@@ -7,14 +7,8 @@ html(lang="en")
       link(rel="stylesheet", type="text/css" href=cssSrc)
     else
       style!= igCss
-    if listSrc
-      script(type="application/javascript", src=listSrc)
-    else
-      script(type="application/javascript")!= listJs
-    if igSrc
-      script(type="application/javascript", src=igSrc)
-    else
-      script(type="application/javascript")!= igJs
+    script(type="application/javascript")!= listJs
+    script(type="application/javascript")!= igJs
     base(target="_blank")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
   body

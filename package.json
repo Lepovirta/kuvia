@@ -1,0 +1,30 @@
+{
+  "name": "instantgallery",
+  "version": "0.1.0",
+  "description": "Simple web image gallery generator",
+  "main": "bin/instantgallery.js",
+  "preferGlobal": "true",
+  "bin": {
+    "instantgallery": "bin/instantgallery.js"
+  },
+  "dependencies": {
+    "browserify": "^10.2.0",
+    "glob": "^5.0.6",
+    "jade": "^1.9.2",
+    "lodash": "^3.8.0",
+    "node-getopt": "^0.2.3",
+    "q": "^1.4.0",
+    "uglifycss": "^0.0.15",
+    "uglifyify": "^3.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.org:jkpl/instantgallery.git"
+  },
+  "author": "Jaakko Pallari",
+  "license": "BSD"
+}
