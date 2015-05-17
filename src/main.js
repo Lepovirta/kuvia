@@ -1,6 +1,6 @@
 (function() {
   var Gallery = require('./gallery'),
-      view = require('./instantgalleryview'),
+      view = require('./view'),
       Image = require('./image'),
       domtools = require('./domtools');
 
