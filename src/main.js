@@ -1,13 +1,15 @@
-(function(window) {
-  var Gallery = require('./gallery').Gallery,
+(function() {
+  var Gallery = require('./gallery'),
       view = require('./instantgalleryview'),
-      image = require('./image'),
+      Image = require('./image'),
       domtools = require('./domtools');
 
-  var dt = new domtools.DomTools(window),
-      factory = image.imageFactory(window),
-      display = view.createView(window),
-      gallery = new Gallery(display, factory);
+  function imageFactory(src, onclick) {
+    return new Image(src, onclick);
+  }
+
+  var display = view.createView(),
+      gallery = new Gallery(display, imageFactory);
 
   function showError() {
     display.showNoImagesWarning();
@@ -19,24 +21,28 @@
     window.instantgallery = gallery;
   }
 
-  dt.onLoad(function() {
+  function loadAjaxGallery(url) {
+    domtools.ajax({
+      url: url,
+      callback: function(xhr) {
+        if (xhr.status === 200) {
+          loadGallery(JSON.parse(xhr.responseText));
+        } else {
+          showError();
+        }
+      }
+    });
+  }
+
+  domtools.onLoad(function() {
     var images = window.imagelist;
 
     if (typeof images === 'string') {
-      domtools.ajax({
-        url: images,
-        callback: function(xhr) {
-          if (xhr.status === 200) {
-            loadGallery(JSON.parse(xhr.responseText));
-          } else {
-            showError();
-          }
-        }
-      });
+      loadAjaxGallery(images);
     } else if (images && images.length > 0) {
       loadGallery(images);
     } else {
       showError();
     }
   });
-}).call(null, window);
+}());

@@ -1,46 +1,47 @@
 function StateList(listItems) {
-  this.list = listItems;
-  this.currentIndex = 0;
+  var self = this;
+  self.list = listItems;
+  self.currentIndex = 0;
+
+  self.setList = function(listItems) {
+    self.list = listItems;
+    self.currentIndex = 0;
+  };
+
+  self.currentItem = function() {
+    return self.list[self.currentIndex];
+  };
+
+  self.next = function() {
+    setCurrentIndex(self.currentIndex + 1, 0);
+    return self.currentItem();
+  };
+
+  function setCurrentIndex(index, fallback) {
+    if (isIndexOutOfBounds(index)) {
+      self.currentIndex = fallback;
+    } else {
+      self.currentIndex = index;
+    }
+  }
+
+  function isIndexOutOfBounds(index) {
+    return index < 0 || index > self.lastIndex();
+  }
+
+  self.lastIndex = function() {
+    return self.list.length - 1;
+  };
+
+  self.previous = function() {
+    setCurrentIndex(self.currentIndex - 1, self.lastIndex());
+    return self.currentItem();
+  };
+
+  self.setCurrentItem = function(item) {
+    var index = self.list.indexOf(item);
+    setCurrentIndex(index, self.currentIndex);
+  };
 }
 
-StateList.prototype.setList = function(listItems) {
-  this.list = listItems;
-  this.currentIndex = 0;
-};
-
-StateList.prototype.currentItem = function() {
-  return this.list[this.currentIndex];
-};
-
-StateList.prototype.next = function() {
-  this.setCurrentIndex(this.currentIndex + 1, 0);
-  return this.currentItem();
-};
-
-StateList.prototype.setCurrentIndex = function(index, fallback) {
-  if (this.isIndexOutOfBounds(index)) {
-    this.currentIndex = fallback;
-  } else {
-    this.currentIndex = index;
-  }
-};
-
-StateList.prototype.isIndexOutOfBounds = function(index) {
-  return index < 0 || index > this.lastIndex();
-};
-
-StateList.prototype.lastIndex = function() {
-  return this.list.length - 1;
-};
-
-StateList.prototype.previous = function() {
-  this.setCurrentIndex(this.currentIndex - 1, this.lastIndex());
-  return this.currentItem();
-};
-
-StateList.prototype.setCurrentItem = function(item) {
-  var index = this.list.indexOf(item);
-  this.setCurrentIndex(index, this.currentIndex);
-};
-
-exports.StateList = StateList;
+module.exports = StateList;

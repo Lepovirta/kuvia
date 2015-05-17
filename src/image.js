@@ -1,61 +1,55 @@
-var dt = require('./domtools');
+var dom = require('./domtools');
 
-function Image(document, src, onclick) {
-  this.src = src;
-  this.text = createTextFromSrc(src);
-  this.image = createImageElement(document, onclick);
-  this.link = createTextLink(document, this.text);
+function Image(src, onclick) {
+  var self = this;
+  self.src = src;
+  self.text = createTextFromSrc(src);
+  self.image = createImageElement(onclick);
+  self.link = createTextLink(self.text);
+
+  self.loadImage = function() {
+    if (self.image.src !== self.src) {
+      self.image.src = self.src;
+    }
+  };
+
+  self.hide = function() {
+    dom.removeCssClass(self.image, 'show');
+    dom.removeCssClass(self.link, 'show');
+  };
+
+  self.show = function() {
+    self.loadImage();
+    dom.addCssClass(self.image, 'show');
+    dom.addCssClass(self.link, 'show');
+  };
+
+  self.setImageOnClick = function(handler) {
+    self.image.onclick = handler;
+  };
+
+  self.addLinkOnClick = function(handler) {
+    dom.onEvent(self.link, 'click', handler);
+  };
 }
 
 var createTextFromSrc = function(src) {
   return src.substring(src.lastIndexOf('/')+1, src.length);
 };
 
-var createTextLink = function(document, text) {
-  var link = document.createElement('a');
+var createTextLink = function(text) {
+  var link = dom.element('a');
   link.href = '#';
-  link.appendChild(document.createTextNode(text));
+  link.appendChild(dom.text(text));
   return link;
 };
 
-var createImageElement = function(document, onclick) {
-  var img = document.createElement('img');
+var createImageElement = function(onclick) {
+  var img = dom.element('img');
   if (typeof onclick === 'function') {
     img.onclick = onclick;
   }
   return img;
 };
 
-Image.prototype.loadImage = function() {
-  if (this.image.src !== this.src) {
-    this.image.src = this.src;
-  }
-};
-
-Image.prototype.hide = function() {
-  dt.removeCssClass(this.image, 'show');
-  dt.removeCssClass(this.link, 'show');
-};
-
-Image.prototype.show = function() {
-  this.loadImage();
-  dt.addCssClass(this.image, 'show');
-  dt.addCssClass(this.link, 'show');
-};
-
-Image.prototype.setImageOnClick = function(handler) {
-  this.image.onclick = handler;
-};
-
-Image.prototype.addLinkOnClick = function(handler) {
-  dt.onEvent(this.link, 'click', handler);
-};
-
-var imageFactory = function(window) {
-  return function(src, onclick) {
-    return new Image(window.document, src, onclick);
-  };
-};
-
-exports.Image = Image;
-exports.imageFactory = imageFactory;
+module.exports = Image;
