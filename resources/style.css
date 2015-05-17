@@ -111,3 +111,21 @@ html, body {
 #noimageswarning {
   display: none;
 }
+
+@media (max-width: 640px) {
+  .short_name {
+    display: inline;
+  }
+  .long_name {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  .short_name {
+    display: none;
+  }
+  .long_name {
+    display: inline;
+  }
+}
