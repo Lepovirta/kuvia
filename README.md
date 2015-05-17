@@ -15,6 +15,7 @@ platform that supports serving static files.
     -h, --help           display this help
     -u, --url=ARG        Custom URL source for images
     -P, --php            Generate PHP version of Instant Gallery
+    -o, --output=ARG     File to write the output
     -d, --dir=ARG        Directory to scan for images
     -r, --recursive      Recursively scan directory for images
     -p, --path=ARG       Path to prepend to scanned images

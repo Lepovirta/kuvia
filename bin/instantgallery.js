@@ -10,6 +10,6 @@ var jsreader = require('./jsreader').bind(null, options);
 
 var page = require('./page').bind(null, options, jsreader, filelistRender);
 
-page().done(function(output) {
-  process.stdout.write(output);
-});
+var writer = require('./writer').bind(null, options);
+
+page().done(writer);

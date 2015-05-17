@@ -4,6 +4,7 @@ var optionSpec = [
   ['h', 'help', 'display this help'],
   ['u', 'url=ARG', 'Custom URL source for images'],
   ['P', 'php', 'Generate PHP version of Instant Gallery'],
+  ['o', 'output=ARG', 'File to write the output'],
 
   // Image scanning
   ['d', 'dir=ARG', 'Directory to scan for images'],
