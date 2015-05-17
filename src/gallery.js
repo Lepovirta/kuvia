@@ -12,7 +12,7 @@ function Gallery(display, imageFactory) {
 
   function createImages(urls) {
     var createImage = function(url) {
-      var image = imageFactory(url, self.next);
+      var image = imageFactory(url, display.toggleZoom);
       image.addLinkOnClick(function() { showImage(image); });
       return image;
     };

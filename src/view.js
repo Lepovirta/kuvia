@@ -19,12 +19,14 @@ var createView = function() {
     addClassClickHandlers([
       ['next_image', callNextHandlers],
       ['previous_image', callPreviousHandlers],
-      ['toggle_sidebar', toggleSidebar]
+      ['toggle_sidebar', toggleSidebar],
+      ['toggle_zoom', self.toggleZoom]
     ]);
     dom.onKeyDown({
       32: toggleSidebar,
       37: callPreviousHandlers,
-      39: callNextHandlers
+      39: callNextHandlers,
+      90: self.toggleZoom
     });
   };
 
@@ -54,12 +56,8 @@ var createView = function() {
     callEach(previousHandlers);
   }
 
-  function toggleElement(element) {
-    dom.toggleCssClass(element, 'show');
-  }
-
   function toggleSidebar() {
-    toggleElement(elements.sidebar);
+    dom.toggleCssClass(elements.sidebar, 'show');
   };
 
   self.addNextHandler = function(handler) {
@@ -96,6 +94,10 @@ var createView = function() {
   self.showNoImagesWarning = function() {
     var warning = dom.byId('noimageswarning');
     dom.show(warning, 'block');
+  };
+
+  self.toggleZoom = function() {
+    dom.toggleCssClass(elements.imgarea, 'zoom');
   };
 
   return self;
