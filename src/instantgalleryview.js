@@ -9,7 +9,7 @@ var callEach = function(items, args) {
 
 var createView = function() {
   var self = {},
-      elementIds = ['imginfo', 'imgarea', 'linksarea', 'sidebar', 'toolbar'],
+      elementIds = ['imginfo', 'imgarea', 'linksarea', 'sidebar'],
       elements = {},
       nextHandlers = [],
       previousHandlers = [];
@@ -19,14 +19,12 @@ var createView = function() {
     addClassClickHandlers([
       ['next_image', callNextHandlers],
       ['previous_image', callPreviousHandlers],
-      ['toggle_toolbar', toggleToolbar],
-      ['toggle_sidebar', self.toggleSidebar]
+      ['toggle_sidebar', toggleSidebar]
     ]);
     dom.onKeyDown({
-      32: self.toggleSidebar,
+      32: toggleSidebar,
       37: callPreviousHandlers,
-      39: callNextHandlers,
-      72: toggleToolbar
+      39: callNextHandlers
     });
   };
 
@@ -56,15 +54,11 @@ var createView = function() {
     callEach(previousHandlers);
   }
 
-  function toggleToolbar() {
-    toggleElement(elements.toolbar);
-  }
-
   function toggleElement(element) {
     dom.toggleCssClass(element, 'show');
   }
 
-  self.toggleSidebar = function() {
+  function toggleSidebar() {
     toggleElement(elements.sidebar);
   };
 

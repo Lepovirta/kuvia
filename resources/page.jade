@@ -13,27 +13,18 @@ html(lang="en")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
   body
     h1(id='noimageswarning') No images found
-    div(class="hoverbar")
-      div(class="title")
-        a(href="#", class="toggle_sidebar")
-          span(class="title-name") Instant Gallery
+    div(id="topbar")
+      ul
+        li
+          a(href="#", class="toggle_sidebar") &#9776; 
+        li
+          a(href="http://github.com/jkpl/instantgallery") Instant Gallery
+        li
           span(id="imginfo")
-      div(id="sidebar")
-        ul(class="navi")
-          li
-            a(class="toggle_toolbar", href="#", title="hotkey: H") toolbar
-          li
-            a(href="http://jkpl.lepovirta.org") jkpl
-          li
-            a(href="http://github.com/jkpl/instantgallery") instant gallery
-        span Images
-        ul(id="linksarea")
-    div(id="toolbar", class="show")
-      ul(class="navi")
         li
-          a(class="previous_image", href="#", title="hotkey: left arrow") &larr;
+          a(href="#", class="previous_image", title="Previous (left arrow)") &#9664;
         li
-          a(class="next_image", href="#", title="hotkey: right arrow") &rarr;
-        li
-          a(class="toggle_sidebar", href="#", title="hotkey: space") list
+          a(href="#", class="next_image", title="Next (right arrow)") &#9654;
+    div(id="sidebar")
+      ul(id="linksarea")
     div(id="imgarea")
