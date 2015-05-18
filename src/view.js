@@ -24,8 +24,8 @@ var createView = function() {
     ]);
     dom.onKeyDown({
       32: toggleSidebar,
-      37: callPreviousHandlers,
-      39: callNextHandlers,
+      75: callPreviousHandlers,
+      74: callNextHandlers,
       90: self.toggleZoom
     });
   };

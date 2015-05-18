@@ -29,10 +29,14 @@ function onLoad(fun) {
   }
 }
 
+function noModifiers(e) {
+  return !e.ctrkKey && !e.shiftKey && !e.altKey && !e.metaKey;
+}
+
 function onKeyDown(handlermap) {
   onEventNoPrevent(window, 'keydown', function(e) {
     var handler = handlermap[e.keyCode];
-    if (typeof handler === 'function') {
+    if (typeof handler === 'function' && noModifiers(e)) {
       handler(e);
       e.preventDefault();
     }
