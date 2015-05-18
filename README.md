@@ -10,21 +10,20 @@ a single page. In this page, browsing the images is as easy as pressing left
 and right keys. This way I can host a simple photo gallery on pretty much any
 platform that supports serving static files.
 
-## Usage
+## Options
 
-    -h, --help           display this help
-    -u, --url=ARG        Custom URL source for images
-    -P, --php            Generate PHP version of Instant Gallery
-    -o, --output=ARG     File to write the output
-    -d, --dir=ARG        Directory to scan for images
-    -r, --recursive      Recursively scan directory for images
-    -p, --path=ARG       Path to prepend to scanned images
-    -g, --glob=ARG       Glob pattern for image files
-    -f, --file=ARG+      Files to include in the file list
-    -t, --filetypes=ARG  File types to include in directory scanning
-    -M, --no-min         Disable minimization
-    -C, --css=ARG        Custom CSS file
-        --css-url=ARG    Custom CSS url
+      -h, --help          Display this help
+      -o, --output=ARG    File to write the output
+      -d, --dir=ARG+      Directories to scan for images
+      -r, --recursive     Recursively scan directories for images
+      -t, --types=ARG     Comma separated list of file types to include in image scanning
+      -e, --pattern=ARG+  Patterns for scanning image files
+      -p, --prefix=ARG    Prefix to add to each scanned file
+      -u, --url=ARG       Custom URL source for images
+          --php           Generate PHP version of Instant Gallery
+          --no-min        Disable minimization
+          --css=ARG       Custom CSS file
+          --css-url=ARG   Custom CSS url
 
 ## License
 
