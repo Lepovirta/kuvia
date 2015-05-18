@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 
-var options = require('./options')().options;
+var optionParser = require('./options');
+var getFiles = require('./filelist');
+var renderFiles = require('./filelistrender');
+var readJs = require('./jsreader');
+var renderPage = require('./page');
+var fileWriter = require('./writer');
 
-var filelist = require('./filelist').bind(null, options);
+var options = optionParser();
+var filelist = getFiles.bind(null, options);
+var renderedFiles = renderFiles.bind(null, options, filelist);
+var js = readJs.bind(null, options);
+var writer = fileWriter.bind(null, options);
 
-var filelistRender = require('./filelistrender').bind(null, options, filelist);
+renderPage(options, js, renderedFiles).done(writer);
 
-var jsreader = require('./jsreader').bind(null, options);
-
-var page = require('./page').bind(null, options, jsreader, filelistRender);
-
-var writer = require('./writer').bind(null, options);
-
-page().done(writer);
