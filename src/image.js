@@ -33,23 +33,24 @@ function Image(src, onclick) {
   };
 }
 
-var createTextFromSrc = function(src) {
-  return src.substring(src.lastIndexOf('/')+1, src.length);
-};
+function createTextFromSrc(src) {
+  return decodeURI(src.substring(src.lastIndexOf('/')+1, src.length));
+}
 
-var createTextLink = function(text) {
+function createTextLink(text) {
   var link = dom.element('a');
   link.href = '#';
   link.appendChild(dom.text(text));
+  link.title = text;
   return link;
-};
+}
 
-var createImageElement = function(onclick) {
+function createImageElement(onclick) {
   var img = dom.element('img');
   if (typeof onclick === 'function') {
     img.onclick = onclick;
   }
   return img;
-};
+}
 
 module.exports = Image;
