@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var optionParser = require('./options');
+var optionParser = require('./options').options;
 var getFiles = require('./filelist');
 var renderFiles = require('./filelistrender');
 var readJs = require('./jsreader');
