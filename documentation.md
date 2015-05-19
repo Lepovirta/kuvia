@@ -48,7 +48,7 @@ All of these options can be used simultaneously:
 
     $ instantgallery -o gallery.html \
         -p 'http://example.org/gallery/' \
-        -t jpg,png -r
+        -t jpg,png -r \
         -d myimages \
         -d amsterdam \
         -e 'berlin/*.jpg' \
