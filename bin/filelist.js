@@ -2,6 +2,7 @@ var path = require('path');
 var Q = require('q');
 var glob = require('glob');
 var url = require('url');
+var _ = require('lodash');
 
 var defaultFiletypes = [
   'jpg', 'jpeg', 'png', 'gif'
@@ -22,24 +23,18 @@ function getFiletypes(options) {
 }
 
 function optionsToPatterns(options) {
-  if (options.pattern && options.pattern.length > 0) {
-    return options.pattern;
-  }
-
+  var optionPatterns = options.pattern || [];
   var filetypes = getFiletypes(options);
-  return options.dir.map(function(dir) {
+  var dirPatterns = options.dir.map(function(dir) {
     return filetypesToPattern(filetypes, dir, options.recursive);
   });
+
+  return optionPatterns.concat(dirPatterns);
 }
 
 function canGlob(options) {
   return (options.pattern && options.pattern.length > 0)
     || (options.dir && options.dir.length > 0);
-}
-
-function flatten(arrayOfArrays) {
-  var m = [];
-  return m.concat.apply(m, arrayOfArrays);
 }
 
 function globFiles(options) {
@@ -50,7 +45,7 @@ function globFiles(options) {
   var files = patterns.map(function(pattern) {
     return Q.nfcall(glob, pattern, {nocase: true})
   });
-  return Q.all(files).then(flatten);
+  return Q.all(files).then(_.flatten);
 }
 
 function httpPath(file) {
@@ -72,7 +67,8 @@ function readFiles(options) {
   var extraFiles = options.files || [];
   return globFiles(options)
     .then(function(files) { return files.concat(extraFiles); })
-    .then(function(files) { return httpPaths(options, files); });
+    .then(function(files) { return httpPaths(options, files); })
+    .then(function(files) { return _.uniq(files); });
 }
 
 module.exports = readFiles;
