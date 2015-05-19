@@ -107,4 +107,5 @@ html, body {
 
 #noimageswarning {
   display: none;
+  margin-top: 32px;
 }

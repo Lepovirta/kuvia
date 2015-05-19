@@ -3,12 +3,14 @@ html(lang="en")
   head
     title Instant Gallery
     meta(charset="utf-8")
-    if cssSrc
-      link(rel="stylesheet", type="text/css" href=cssSrc)
-    else
-      style!= igCss
-    script(type="application/javascript")!= listJs
-    script(type="application/javascript")!= igJs
+    style!= galleryCss
+    each css in cssUrls
+      link(rel="stylesheet", type="text/css", href=css)
+    if listJs
+      script(type="application/javascript")!= listJs
+    each js in jsUrls
+      script(type="application/javascript", src=js)
+    script(type="application/javascript")!= galleryJs
     base(target="_blank")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
   body

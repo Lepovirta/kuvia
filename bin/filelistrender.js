@@ -29,8 +29,8 @@ function renderFileList(options, filelistSource) {
     return readPhpImageList();
   }
 
-  if (options.url) {
-    return Q(renderTargetAssign(renderString(options.url)));
+  if (options.json) {
+    return Q(renderTargetAssign(renderString(options.json)));
   }
 
   return filelistSource()

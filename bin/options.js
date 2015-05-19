@@ -12,13 +12,13 @@ var optionSpec = [
   ['p', 'prefix=ARG', 'Prefix to add to each scanned file'],
 
   // Alternatives for image scanning
-  ['u', 'url=ARG', 'Custom URL source for images'],
-  ['', 'php', 'Generate PHP version of Instant Gallery'],
+  ['j', 'json=ARG', 'Custom JSON source for images'],
+  ['', 'php', 'Use PHP to load a list of images'],
 
   // Customization
-  ['', 'no-min', 'Disable minimization'],
-  ['', 'css=ARG', 'Custom CSS file'],
-  ['', 'css-url=ARG', 'Custom CSS url']
+  ['J', 'js=ARG+', 'URLs to custom JavaScript files'],
+  ['C', 'css=ARG+', 'URLs to custom CSS files'],
+  ['', 'no-min', 'Disable minimization']
 ];
 
 var helpText = [

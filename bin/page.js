@@ -9,8 +9,7 @@ var cssFile = resources.resourcePath('style.css');
 var templateFile = resources.resourcePath('page.jade');
 
 function readCssFile(options) {
-  var file = options.css || cssFile;
-  var contents = fs.readFile(file);
+  var contents = fs.readFile(cssFile);
 
   if (options['no-min']) {
     return contents;
@@ -19,28 +18,27 @@ function readCssFile(options) {
   }
 }
 
-function cssLocals(options) {
-  var cssUrl = options['css-url'];
-
-  if (cssUrl) {
-    return Q({cssSrc: cssUrl});
-  }
-
-  return readCssFile(options).then(function(v) { return {igCss: v}; });
-}
-
 function readTemplateFile() {
   return fs.readFile(templateFile);
 }
 
+function optionsToLocals(options) {
+  return {
+    pretty: options['no-min'],
+    cssUrls: options.css || [],
+    jsUrls: options.js || [],
+  };
+}
+
 function readPage(options, jsSource, listSource) {
-  var promises = [readTemplateFile(), cssLocals(options), jsSource(), listSource()];
+  var promises = [readTemplateFile(), readCssFile(options), jsSource(), listSource()];
 
   function render(results) {
     var contents = results[0];
-    var jadeOpts = _.extend(results[1], {
-      pretty: options['no-min'],
-      igJs: results[2],
+    var locals = optionsToLocals(options);
+    var jadeOpts = _.extend(locals, {
+      galleryCss: results[1],
+      galleryJs: results[2],
       listJs: results[3]
     });
     return jade.render(contents, jadeOpts);
