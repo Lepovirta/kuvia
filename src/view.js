@@ -96,6 +96,11 @@ var createView = function() {
     dom.show(warning, 'block');
   };
 
+  self.hideNoImagesWarning = function() {
+    var warning = dom.byId('noimageswarning');
+    dom.hide(warning);
+  };
+
   self.toggleZoom = function() {
     dom.toggleCssClass(elements.imgarea, 'zoom');
   };

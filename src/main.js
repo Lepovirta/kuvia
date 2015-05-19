@@ -11,10 +11,6 @@
   var display = view.createView(),
       gallery = new Gallery(display, imageFactory);
 
-  function showError() {
-    display.showNoImagesWarning();
-  }
-
   function loadGallery(images) {
     display.initialize();
     gallery.initialize(images);
@@ -25,11 +21,8 @@
     domtools.ajax({
       url: url,
       callback: function(xhr) {
-        if (xhr.status === 200) {
-          loadGallery(JSON.parse(xhr.responseText));
-        } else {
-          showError();
-        }
+        var images = xhr.status === 200 ? JSON.parse(xhr.responseText) : [];
+        loadGallery(images);
       }
     });
   }
@@ -42,7 +35,7 @@
     } else if (images && images.length > 0) {
       loadGallery(images);
     } else {
-      showError();
+      loadGallery([]);
     }
   });
 }());

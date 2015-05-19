@@ -5,10 +5,16 @@ function Gallery(display, imageFactory) {
   var images = new StateList();
 
   self.initialize = function(urls) {
+    setNoImagesWarning(urls.length === 0);
     images.setList(createImages(urls));
     display.setImages(images.list);
     showCurrentImage();
   };
+
+  function setNoImagesWarning(visible) {
+    if (visible) display.showNoImagesWarning();
+    else display.hideNoImagesWarning();
+  }
 
   function createImages(urls) {
     var createImage = function(url) {
@@ -28,11 +34,13 @@ function Gallery(display, imageFactory) {
   }
 
   function hideCurrentImage() {
-    images.currentItem().hide();
+    var image = images.currentItem();
+    if (image) image.hide();
   }
 
   function showCurrentImage() {
-    images.currentItem().show();
+    var image = images.currentItem();
+    if (image) image.show();
     setImageInfo();
   }
 
