@@ -51,13 +51,21 @@ function Gallery(display, imageFactory) {
     display.setImageInfoHtml(current + "/" + total);
   }
 
-  self.next = function() {
+  function isMaxZoom() {
+    return zoom.currentItem() === 'max';
+  }
+
+  self.next = function(checkZoom) {
+    if (checkZoom && isMaxZoom()) return true;
+
     hideCurrentImage();
     images.next().show();
     setImageInfo();
   };
 
-  self.previous = function() {
+  self.previous = function(checkZoom) {
+    if (checkZoom && isMaxZoom()) return true;
+
     hideCurrentImage();
     images.previous().show();
     setImageInfo();

@@ -1,15 +1,16 @@
 var dom = require('./domtools');
 var utils = require('./utils');
 
-var callEach = function(items, args) {
-  utils.forEach(items, function(item) {
-    item.apply(null, args);
-  });
-};
+function callEach(items) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  var results = items.map(function(item) { return item.apply(null, args) });
+  return results.every(function(v) { return v === true; });
+}
+
+var elementIds = ['imginfo', 'imgarea', 'linksarea', 'sidebar'];
 
 var createView = function() {
   var self = {},
-      elementIds = ['imginfo', 'imgarea', 'linksarea', 'sidebar'],
       elements = {},
       nextHandlers = [],
       previousHandlers = [],
@@ -18,15 +19,17 @@ var createView = function() {
   self.initialize = function() {
     elements = dom.byIds(elementIds);
     addClassClickHandlers([
-      ['next_image', callNextHandlers],
-      ['previous_image', callPreviousHandlers],
+      ['next_image', callNextHandlers.bind(null, false)],
+      ['previous_image', callPreviousHandlers.bind(null, false)],
       ['toggle_sidebar', toggleSidebar],
       ['toggle_zoom', callZoomHandlers]
     ]);
     dom.onKeyDown({
       32: toggleSidebar,
-      75: callPreviousHandlers,
-      74: callNextHandlers,
+      75: callPreviousHandlers.bind(null, false),
+      74: callNextHandlers.bind(null, false),
+      37: callPreviousHandlers.bind(null, true),
+      39: callNextHandlers.bind(null, true),
       90: callZoomHandlers
     });
   };
@@ -53,9 +56,9 @@ var createView = function() {
     dom.toggleCssClass(elements.sidebar, 'show');
   };
 
-  function callNextHandlers() { callEach(nextHandlers); }
-  function callPreviousHandlers() { callEach(previousHandlers); }
-  function callZoomHandlers() { callEach(zoomHandlers); }
+  var callNextHandlers = callEach.bind(null, nextHandlers);
+  var callPreviousHandlers = callEach.bind(null, previousHandlers);
+  var callZoomHandlers = callEach.bind(null, zoomHandlers);
 
   self.addNextHandler = nextHandlers.push.bind(nextHandlers);
   self.addPreviousHandler = previousHandlers.push.bind(previousHandlers);

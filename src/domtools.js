@@ -34,30 +34,26 @@ function noModifiers(e) {
 }
 
 function onKeyDown(handlermap) {
-  onEventNoPrevent(window, 'keydown', function(e) {
+  onEvent(window, 'keydown', function(e) {
     var handler = handlermap[e.keyCode];
     if (typeof handler === 'function' && noModifiers(e)) {
-      handler(e);
-      e.preventDefault();
+      return handler(e);
     }
+    return true;
   });
 }
 
 function onEvent(obj, evname, fun) {
   var handler = function(e) {
-    fun(e);
-    e.preventDefault();
+    var r = fun(e);
+    if (r !== true) e.preventDefault();
   };
-  onEventNoPrevent(obj, evname, handler);
-}
-
-function onEventNoPrevent(obj, evname, fun) {
   if (obj instanceof NodeList) {
     utils.forEach(obj, function(el) {
-      addevent(el, evname, fun);
+      addevent(el, evname, handler);
     });
   } else {
-    addevent(obj, evname, fun);
+    addevent(obj, evname, handler);
   }
 }
 
@@ -167,7 +163,6 @@ exports.byClass = byClass;
 exports.onLoad = onLoad;
 exports.onKeyDown = onKeyDown;
 exports.ajax = ajax;
-exports.onEventNoPrevent = onEventNoPrevent;
 exports.onEvent = onEvent;
 exports.fragment = fragment;
 exports.element = element;
