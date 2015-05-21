@@ -12,7 +12,8 @@ var createView = function() {
       elementIds = ['imginfo', 'imgarea', 'linksarea', 'sidebar'],
       elements = {},
       nextHandlers = [],
-      previousHandlers = [];
+      previousHandlers = [],
+      zoomHandlers = [];
 
   self.initialize = function() {
     elements = dom.byIds(elementIds);
@@ -20,13 +21,13 @@ var createView = function() {
       ['next_image', callNextHandlers],
       ['previous_image', callPreviousHandlers],
       ['toggle_sidebar', toggleSidebar],
-      ['toggle_zoom', self.toggleZoom]
+      ['toggle_zoom', callZoomHandlers]
     ]);
     dom.onKeyDown({
       32: toggleSidebar,
       75: callPreviousHandlers,
       74: callNextHandlers,
-      90: self.toggleZoom
+      90: callZoomHandlers
     });
   };
 
@@ -48,25 +49,17 @@ var createView = function() {
     }
   }
 
-  function callNextHandlers() {
-    callEach(nextHandlers);
-  }
-
-  function callPreviousHandlers() {
-    callEach(previousHandlers);
-  }
-
   function toggleSidebar() {
     dom.toggleCssClass(elements.sidebar, 'show');
   };
 
-  self.addNextHandler = function(handler) {
-    nextHandlers.push(handler);
-  };
+  function callNextHandlers() { callEach(nextHandlers); }
+  function callPreviousHandlers() { callEach(previousHandlers); }
+  function callZoomHandlers() { callEach(zoomHandlers); }
 
-  self.addPreviousHandler = function(handler) {
-    previousHandlers.push(handler);
-  };
+  self.addNextHandler = nextHandlers.push.bind(nextHandlers);
+  self.addPreviousHandler = previousHandlers.push.bind(previousHandlers);
+  self.addZoomHandler = zoomHandlers.push.bind(zoomHandlers);
 
   self.setImageInfoHtml = function(html) {
     elements.imginfo.innerHTML = html;
@@ -101,8 +94,9 @@ var createView = function() {
     dom.hide(warning);
   };
 
-  self.toggleZoom = function() {
-    dom.toggleCssClass(elements.imgarea, 'zoom');
+  self.setZoom = function(zoomMode) {
+    dom.removeCssClassPrefix(elements.imgarea, 'zoom');
+    dom.addCssClass(elements.imgarea, 'zoom-' + zoomMode);
   };
 
   return self;

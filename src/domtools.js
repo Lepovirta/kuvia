@@ -84,6 +84,11 @@ function removeCssClass(element, cssClass) {
   element.className = element.className.replace(re, '');
 }
 
+function removeCssClassPrefix(element, cssClassPrefix) {
+  var re = new RegExp('(\\s|^)'+cssClassPrefix+'-\\w+(\\s|$)');
+  element.className = element.className.replace(re, '');
+}
+
 function toggleCssClass(element, cssClass) {
   if (hasCssClass(element, cssClass)) {
     removeCssClass(element, cssClass);
@@ -171,6 +176,7 @@ exports.setChild = setChild;
 exports.hasCssClass = hasCssClass;
 exports.addCssClass = addCssClass;
 exports.removeCssClass = removeCssClass;
+exports.removeCssClassPrefix = removeCssClassPrefix;
 exports.toggleCssClass = toggleCssClass;
 exports.hide = hide;
 exports.show = show;

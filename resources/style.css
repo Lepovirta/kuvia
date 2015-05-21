@@ -95,10 +95,18 @@ html, body {
 
 #imgarea img {
   display: none;
+}
+
+#imgarea.zoom-min img {
+  max-width: 100%;
+  max-height: 95vh;
+}
+
+#imgarea.zoom-med img {
   max-width: 100%;
 }
 
-#imgarea.zoom img {
+#imgarea.zoom-max img {
   max-width: none;
 }
 

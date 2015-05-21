@@ -3,6 +3,7 @@ var StateList = require('./statelist');
 function Gallery(display, imageFactory) {
   var self = this;
   var images = new StateList();
+  var zoom = new StateList(['min', 'med', 'max']);
 
   self.initialize = function(urls) {
     setNoImagesWarning(urls.length === 0);
@@ -18,7 +19,7 @@ function Gallery(display, imageFactory) {
 
   function createImages(urls) {
     var createImage = function(url) {
-      var image = imageFactory(url, display.toggleZoom);
+      var image = imageFactory(url, self.setNextZoom);
       image.addLinkOnClick(function() { showImage(image); });
       return image;
     };
@@ -62,8 +63,13 @@ function Gallery(display, imageFactory) {
     setImageInfo();
   };
 
+  self.setNextZoom = function() {
+    display.setZoom(zoom.next());
+  };
+
   display.addNextHandler(self.next);
   display.addPreviousHandler(self.previous);
+  display.addZoomHandler(self.setNextZoom);
 }
 
 module.exports = Gallery;
