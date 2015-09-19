@@ -22,8 +22,8 @@ var optionSpec = [
 ];
 
 var helpText = [
-  "Usage: instantgallery [OPTIONS] [FILE ...]",
-  "Instant Gallery page generator",
+  "Usage: kuvia [OPTIONS] [FILE ...]",
+  "Kuvia page generator",
   "\n[[OPTIONS]]\n",
 ].join('\n');
 

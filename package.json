@@ -1,11 +1,11 @@
 {
-  "name": "instantgallery",
+  "name": "kuvia",
   "version": "0.2.0",
   "description": "Simple web image gallery generator",
-  "main": "bin/instantgallery.js",
+  "main": "bin/kuvia.js",
   "preferGlobal": "true",
   "bin": {
-    "instantgallery": "bin/instantgallery.js"
+    "kuvia": "bin/kuvia.js"
   },
   "dependencies": {
     "browserify": "^10.2.0",
@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.org:jkpl/instantgallery.git"
+    "url": "git@github.org:Lepovirta/kuvia.git"
   },
   "author": "Jaakko Pallari",
   "license": "BSD"

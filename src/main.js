@@ -14,7 +14,7 @@
   function loadGallery(images) {
     display.initialize();
     gallery.initialize(images);
-    window.instantgallery = gallery;
+    window.kuvia = gallery;
   }
 
   function loadAjaxGallery(url) {
