@@ -1,3 +1,11 @@
+### Installation
+
+Kuvia can be installed from [npm][] using the following command:
+
+    $ npm install -g kuvia
+
+### Basics
+
 Kuvia command line app is used for generating gallery pages.
 The app allows customizing what images are shown in the gallery.
 For example, a gallery of three images can be created like this:
@@ -94,4 +102,25 @@ By default, the gallery page is minified to save space.
 If you don't want the page to be minified, use the `--no-min` flag:
 
     $ kuvia -o gallery.html -d images --no-min
+
+### Hacking the source code
+
+You can pull the latest development version from GitHub:
+
+    $ git clone git@github.com:Lepovirta/kuvia.git
+
+Once you've fetched the source code, you can install the dependencies locally using [npm][]:
+
+    $ cd kuvia
+    $ npm install
+
+The JS source code for the UI can be found from `src` directory.
+The main program can be found from the `bin` directory.
+The `resources` directory contains the stylesheets and HTML templates.
+
+You can run the local Kuvia app from the `bin` directory to try your changes:
+
+    $ ./bin/kuvia.js -o gallery.html -d myimages
+
+[npm]: https://www.npmjs.com/
 
