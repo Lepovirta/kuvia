@@ -22,15 +22,14 @@ Give it a list of image files, and you've got an image gallery that can be hoste
           --no-min        Disable minimization
     
 
-## Documentation
+## Installation
 
-### Installation
-
-Kuvia can be installed from [npm][] using the following command:
+Kuvia can be installed from [npm](https://www.npmjs.com/) using the following command:
 
     $ npm install -g kuvia
 
-### Basics
+
+## Documentation
 
 Kuvia command line app is used for generating gallery pages.
 The app allows customizing what images are shown in the gallery.
@@ -129,13 +128,14 @@ If you don't want the page to be minified, use the `--no-min` flag:
 
     $ kuvia -o gallery.html -d images --no-min
 
-### Hacking the source code
+
+## Hacking the source code
 
 You can pull the latest development version from GitHub:
 
     $ git clone git@github.com:Lepovirta/kuvia.git
 
-Once you've fetched the source code, you can install the dependencies locally using [npm][]:
+Once you've fetched the source code, you can install the dependencies locally using [npm](https://www.npmjs.com/):
 
     $ cd kuvia
     $ npm install
@@ -147,8 +147,6 @@ The `resources` directory contains the stylesheets and HTML templates.
 You can run the local Kuvia app from the `bin` directory to try your changes:
 
     $ ./bin/kuvia.js -o gallery.html -d myimages
-
-[npm]: https://www.npmjs.com/
 
 
 ## License

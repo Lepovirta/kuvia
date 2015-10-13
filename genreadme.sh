@@ -16,11 +16,27 @@ node -e 'console.log(require("./bin/options").help())' \
 
 cat << EOF >> README.md
 
+## Installation
+
+EOF
+
+cat installation.md >> README.md
+
+cat << EOF >> README.md
+
 ## Documentation
 
 EOF
 
 cat documentation.md >> README.md
+
+cat << EOF >> README.md
+
+## Hacking the source code
+
+EOF
+
+cat hacking.md >> README.md
 
 cat << EOF >> README.md
 
