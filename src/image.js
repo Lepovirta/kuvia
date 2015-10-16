@@ -1,10 +1,10 @@
 var dom = require('./domtools');
 
-function Image(src, onclick) {
+function Image(src, onclick, onerror) {
   var self = this;
   self.src = src;
   self.text = createTextFromSrc(src);
-  self.image = createImageElement(onclick);
+  self.image = createImageElement(onclick, onerror);
   self.link = createTextLink(self.text);
 
   self.loadImage = function() {
@@ -31,6 +31,11 @@ function Image(src, onclick) {
   self.addLinkOnClick = function(handler) {
     dom.onEvent(self.link, 'click', handler);
   };
+
+  self.removeElements = function() {
+    dom.removeNode(self.image);
+    dom.removeNode(self.link);
+  };
 }
 
 function createTextFromSrc(src) {
@@ -45,10 +50,16 @@ function createTextLink(text) {
   return link;
 }
 
-function createImageElement(onclick) {
+function createImageElement(onclick, onerror) {
   var img = dom.element('img');
   if (typeof onclick === 'function') {
     img.onclick = onclick;
+  }
+  if (typeof onerror === 'function') {
+    img.onerror = function() {
+      img.onerror = undefined; // Ensure onerror is called only once
+      onerror();
+    };
   }
   return img;
 }
