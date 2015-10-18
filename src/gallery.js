@@ -1,4 +1,5 @@
 var StateList = require('./statelist');
+var log = require('./logging');
 
 function Gallery(display, imageFactory) {
   var self = this;
@@ -19,7 +20,7 @@ function Gallery(display, imageFactory) {
 
   function createImages(urls) {
     var createImage = function(url) {
-      var image = imageFactory(url, self.setNextZoom);
+      var image = imageFactory(url, self.setNextZoom, self.invalidImage);
       image.addLinkOnClick(function() { showImage(image); });
       return image;
     };
@@ -54,6 +55,15 @@ function Gallery(display, imageFactory) {
   function isMaxZoom() {
     return zoom.currentItem() === 'max';
   }
+
+  self.invalidImage = function() {
+    var image = images.removeCurrent();
+    if (image) {
+      log('Invalid or missing image: ', image.src);
+      image.removeElements();
+    }
+    showCurrentImage();
+  };
 
   self.next = function(checkZoom) {
     if (checkZoom && isMaxZoom()) return true;

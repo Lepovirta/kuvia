@@ -4,8 +4,8 @@
       Image = require('./image'),
       domtools = require('./domtools');
 
-  function imageFactory(src, onclick) {
-    return new Image(src, onclick);
+  function imageFactory(src, onclick, onerror) {
+    return new Image(src, onclick, onerror);
   }
 
   var display = view.createView(),

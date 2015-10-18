@@ -42,6 +42,13 @@ function StateList(listItems) {
     var index = self.list.indexOf(item);
     setCurrentIndex(index, self.currentIndex);
   };
+
+  self.removeCurrent = function() {
+    var result = self.list.splice(self.currentIndex, 1);
+    if (result.length > 0) {
+      return result[0];
+    }
+  };
 }
 
 module.exports = StateList;
