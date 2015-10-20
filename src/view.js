@@ -102,6 +102,10 @@ var createView = function() {
     dom.addCssClass(elements.imgarea, 'zoom-' + zoomMode);
   };
 
+  self.setImageLocation = function(l) {
+    dom.setHashLocation(l);
+  };
+
   return self;
 };
 

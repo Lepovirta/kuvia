@@ -6,11 +6,11 @@ function isIE() {
 
 function byIds(ids) {
   return utils.mapForKeys(ids, byId);
-};
+}
 
 function byId(id) {
   return window.document.getElementById(id);
-};
+}
 
 function byClass(className) {
   return window.document.getElementsByClassName(className);
@@ -163,6 +163,14 @@ function ajax(opts) {
   }
 }
 
+function setHashLocation(l) {
+  window.location = '#' + l;
+}
+
+function getHashLocation() {
+  return window.location.hash.substring(1);
+}
+
 exports.byIds = byIds;
 exports.byId = byId;
 exports.byClass = byClass;
@@ -183,3 +191,6 @@ exports.toggleCssClass = toggleCssClass;
 exports.hide = hide;
 exports.show = show;
 exports.clearNode = clearNode;
+exports.setHashLocation = setHashLocation;
+exports.getHashLocation = getHashLocation;
+
