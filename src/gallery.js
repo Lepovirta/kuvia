@@ -6,11 +6,11 @@ function Gallery(display, imageFactory) {
   var images = new StateList();
   var zoom = new StateList(['min', 'med', 'max']);
 
-  self.initialize = function(urls) {
+  self.initialize = function(urls, selectedImageIndex) {
     setNoImagesWarning(urls.length === 0);
     images.setList(createImages(urls));
     display.setImages(images.list);
-    showCurrentImage();
+    self.setIndex(selectedImageIndex);
   };
 
   function setNoImagesWarning(visible) {
@@ -47,9 +47,17 @@ function Gallery(display, imageFactory) {
   }
 
   function setImageInfo() {
-    var current = images.currentIndex + 1;
-    var total = images.lastIndex() + 1;
-    display.setImageInfoHtml(current + "/" + total);
+    var index = currentIndex();
+    display.setImageLocation(index);
+    display.setImageInfoHtml(index + '/' + lastIndex());
+  }
+
+  function currentIndex() {
+    return images.currentIndex + 1;
+  }
+
+  function lastIndex() {
+    return images.lastIndex() + 1;
   }
 
   function isMaxZoom() {
@@ -83,6 +91,12 @@ function Gallery(display, imageFactory) {
 
   self.setNextZoom = function() {
     display.setZoom(zoom.next());
+  };
+
+  self.setIndex = function(index) {
+    hideCurrentImage();
+    images.setCurrentIndex(index);
+    showCurrentImage();
   };
 
   display.addNextHandler(self.next);

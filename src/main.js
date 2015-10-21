@@ -13,8 +13,13 @@
 
   function loadGallery(images) {
     display.initialize();
-    gallery.initialize(images);
+    gallery.initialize(images, getImageIndex());
     window.kuvia = gallery;
+  }
+
+  function getImageIndex() {
+    var hash = domtools.getHashLocation();
+    return parseInt(hash) - 1 || 0;
   }
 
   function loadAjaxGallery(url) {
@@ -37,5 +42,9 @@
     } else {
       loadGallery([]);
     }
+  });
+
+  domtools.onEvent(window, "hashchange", function() {
+    gallery.setIndex(getImageIndex());
   });
 }());

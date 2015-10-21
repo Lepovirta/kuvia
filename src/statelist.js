@@ -13,11 +13,11 @@ function StateList(listItems) {
   };
 
   self.next = function() {
-    setCurrentIndex(self.currentIndex + 1, 0);
+    setIndex(self.currentIndex + 1, 0);
     return self.currentItem();
   };
 
-  function setCurrentIndex(index, fallback) {
+  function setIndex(index, fallback) {
     if (isIndexOutOfBounds(index)) {
       self.currentIndex = fallback;
     } else {
@@ -34,13 +34,17 @@ function StateList(listItems) {
   };
 
   self.previous = function() {
-    setCurrentIndex(self.currentIndex - 1, self.lastIndex());
+    setIndex(self.currentIndex - 1, self.lastIndex());
     return self.currentItem();
   };
 
   self.setCurrentItem = function(item) {
     var index = self.list.indexOf(item);
-    setCurrentIndex(index, self.currentIndex);
+    self.setCurrentIndex(index);
+  };
+
+  self.setCurrentIndex = function(index) {
+    setIndex(index, self.currentIndex);
   };
 
   self.removeCurrent = function() {
