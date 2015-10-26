@@ -4,7 +4,7 @@ function Image(src, onclick, onerror) {
   var self = this;
   self.src = src;
   self.text = createTextFromSrc(src);
-  self.image = createImageElement(onclick, onerror);
+  self.image = createImageElement(onclick, onerror.bind(self, self));
   self.link = createTextLink(self.text);
 
   self.loadImage = function() {
