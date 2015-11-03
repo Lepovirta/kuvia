@@ -1,6 +1,6 @@
 {
   "name": "kuvia",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Simple web image gallery generator",
   "main": "bin/kuvia.js",
   "preferGlobal": "true",
