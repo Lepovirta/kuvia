@@ -86,11 +86,12 @@ html, body {
 }
 
 #imgarea {
-  margin-top: 30px;
+  margin: 30px auto 0 auto;
 }
 
 #imgarea img {
   display: none;
+  margin: 0 auto;
 }
 
 #imgarea.zoom-min img {
