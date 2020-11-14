@@ -32,7 +32,9 @@ function Gallery(display, imageFactory) {
   function imageInfoText() {
     const current = images.currentIndex + 1;
     const last = images.lastIndex() + 1;
-    return `${current}/${last}`;
+    const image = images.currentItem();
+    const imageText = image ? image.text : '';
+    return `${current}/${last} - ${imageText}`;
   }
 
   function setImageInfo(noLocationUpdate) {
