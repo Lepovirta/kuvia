@@ -3,28 +3,32 @@
   "version": "0.3.0",
   "description": "Simple web image gallery generator",
   "main": "bin/kuvia.js",
-  "preferGlobal": "true",
   "bin": {
     "kuvia": "bin/kuvia.js"
   },
   "dependencies": {
-    "browserify": "^10.2.0",
-    "glob": "^5.0.6",
-    "jade": "^1.9.2",
-    "lodash": "^3.8.0",
-    "node-getopt": "^0.2.3",
-    "q": "^1.4.0",
-    "uglifycss": "^0.0.15",
-    "uglifyify": "^3.0.1"
+    "browserify": "^16.5.1",
+    "glob": "^7.1.6",
+    "handlebars": "^4.7.6",
+    "node-getopt": "^0.3.2",
+    "q": "^1.5.1",
+    "uglifycss": "^0.0.29",
+    "uglifyify": "^5.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "jest": "^26.0.1"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "lint": "eslint web/*.js bin/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.org:Lepovirta/kuvia.git"
+    "url": "https://gitlab.com/lepovirta/kuvia.git"
   },
   "author": "Jaakko Pallari",
-  "license": "BSD"
+  "license": "BSD-2-Clause"
 }

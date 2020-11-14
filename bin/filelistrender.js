@@ -1,29 +1,33 @@
-var Q = require('q');
-var fs = require('./qfs');
-var resources = require('./resources');
+const Q = require('q');
+const fs = require('./qfs');
+const resources = require('./resources');
 
-var phpImageList = resources.resourcePath('imagelist.php');
-var targetVariable = 'window.imagelist';
-
-function renderList(list) {
-  var listContents = list
-    .map(renderString)
-    .join(', ');
-  return '[' + listContents + ']';
-}
+const phpImageList = resources.resourcePath('imagelist.php');
 
 function renderString(s) {
-  return '"' + s + '"';
+  return `"${s}"`;
+}
+
+function renderList(list) {
+  const listContents = list.map(renderString).join(', ');
+  return `[${listContents}]`;
 }
 
 function renderTargetAssign(s) {
-  return targetVariable + ' = ' + s + ";";
+  return `window.imagelist = ${s};`;
 }
 
 function readPhpImageList() {
   return fs.readFile(phpImageList);
 }
 
+/**
+ * Render image list for the image gallery based on options.
+ *
+ * - PHP enabled? PHP image list script is read.
+ * - JSON source? Use the JSON path as the image list.
+ * - Otherwise: Create a list out of the given files.
+ */
 function renderFileList(options, filelistSource) {
   if (options.php) {
     return readPhpImageList();

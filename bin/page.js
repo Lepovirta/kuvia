@@ -1,25 +1,19 @@
-var Q = require('q');
-var fs = require('./qfs');
-var jade = require('jade');
-var uglifycss = require('uglifycss');
-var _ = require('lodash');
-var resources = require('./resources');
+const Q = require('q');
+const handlebars = require('handlebars');
+const uglifycss = require('uglifycss');
+const fs = require('./qfs');
+const resources = require('./resources');
 
-var cssFile = resources.resourcePath('style.css');
-var templateFile = resources.resourcePath('page.jade');
+const cssFile = resources.resourcePath('style.css');
+const templateFile = resources.resourcePath('page.hbs');
 
 function readCssFile(options) {
-  var contents = fs.readFile(cssFile);
+  const contents = fs.readFile(cssFile);
 
   if (options['no-min']) {
     return contents;
-  } else {
-    return contents.then(function(v) { return uglifycss.processString(v); });
   }
-}
-
-function readTemplateFile() {
-  return fs.readFile(templateFile);
+  return contents.then((v) => uglifycss.processString(v));
 }
 
 function optionsToLocals(options) {
@@ -30,21 +24,25 @@ function optionsToLocals(options) {
   };
 }
 
-function readPage(options, jsSource, listSource) {
-  var promises = [readTemplateFile(), readCssFile(options), jsSource(), listSource()];
+/**
+ * Render the HTML page for Kuvia
+ */
+function renderPage(options, jsSource, listSource) {
+  const promises = [
+    fs.readFile(templateFile),
+    readCssFile(options),
+    jsSource(),
+    listSource(),
+  ];
 
-  function render(results) {
-    var contents = results[0];
-    var locals = optionsToLocals(options);
-    var jadeOpts = _.extend(locals, {
-      galleryCss: results[1],
-      galleryJs: results[2],
-      listJs: results[3]
-    });
-    return jade.render(contents, jadeOpts);
+  function render([templateStr, galleryCss, galleryJs, listJs]) {
+    const template = handlebars.compile(templateStr);
+    const locals = optionsToLocals(options);
+    const templateOpts = { galleryCss, galleryJs, listJs };
+    return template({ ...locals, ...templateOpts });
   }
 
   return Q.all(promises).then(render);
 }
 
-module.exports = readPage;
+module.exports = renderPage;

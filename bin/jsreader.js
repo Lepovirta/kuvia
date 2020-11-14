@@ -1,18 +1,24 @@
-var Q = require('q');
-var _ = require('lodash');
-var browserify = require('browserify');
-var uglifyify = require('uglifyify');
-var resources = require('./resources');
+const Q = require('q');
+const browserify = require('browserify');
+const uglifyify = require('uglifyify');
+const resources = require('./resources');
 
-var mainProgramPath = resources.sourcePath('main.js');
+const mainProgramPath = resources.sourcePath('main.js');
 
+/**
+ * Read the JavaScript and bundle it up to a single file.
+ *
+ * By default, the JavaScript is minified. If the 'no-min' option is found
+ * from the given options, the JavaScript is not minified.
+ */
 function readJs(options) {
-  var bundler = browserify(mainProgramPath);
+  const bundler = browserify(mainProgramPath);
   if (!options['no-min']) {
-    bundler.transform({global: true}, uglifyify);
+    bundler.transform({ global: true }, uglifyify);
   }
-  return Q.ninvoke(bundler, 'bundle')
-    .then(function(v) { return v.toString('utf-8'); });
+  return Q
+    .ninvoke(bundler, 'bundle')
+    .then((v) => v.toString('utf-8'));
 }
 
 module.exports = readJs;

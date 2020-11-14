@@ -1,6 +1,6 @@
-var Getopt = require('node-getopt');
+const Getopt = require('node-getopt');
 
-var optionSpec = [
+const optionSpec = [
   ['h', 'help', 'Display this help.'],
   ['o', 'output=ARG', 'File to write the page to. Uses STDOUT if not specified.'],
 
@@ -18,25 +18,25 @@ var optionSpec = [
   // Customization
   ['J', 'js=ARG+', 'URLs to custom JavaScript files'],
   ['C', 'css=ARG+', 'URLs to custom CSS files'],
-  ['', 'no-min', 'Disable minimization']
+  ['', 'no-min', 'Disable minimization'],
 ];
 
-var helpText = [
-  "Usage: kuvia [OPTIONS] [FILE ...]",
-  "Kuvia page generator",
-  "\n[[OPTIONS]]\n",
+const helpText = [
+  'Usage: kuvia [OPTIONS] [FILE ...]',
+  'Kuvia page generator',
+  '\n[[OPTIONS]]\n',
 ].join('\n');
 
-var opt = (function() {
-  var o = new Getopt(optionSpec);
+const opt = (() => {
+  const o = new Getopt(optionSpec);
   o.setHelp(helpText);
   o.bindHelp();
   return o;
-}());
+})();
 
-function getOptions() {
-  var result = opt.parseSystem();
-  var options = result.options;
+function getOptions(args) {
+  const result = args ? opt.parse(args) : opt.parseSystem();
+  const { options } = result;
   options.files = result.argv;
   return options;
 }
