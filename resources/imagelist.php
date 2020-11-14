@@ -1,5 +1,5 @@
 <?php
-$image_filepattern = '/^.*[.](jpg|png|gif|jpeg)$/i';
+$image_filepattern = '/^.*[.](jpg|png|gif|jpeg|webp)$/i';
 $rewrite_enabled = isset($_GET['dorewrite']);
 
 function get_query_var($varname, $alternative) {
