@@ -14,7 +14,7 @@ html, body {
   opacity: 0.9;
   width: 100%;
   font-size: 20px;
-  background-color: #44d;
+  background-color: #111;
   color: #fff;
 }
 
@@ -38,7 +38,7 @@ html, body {
 
 #topbar ul li a:hover {
   background-color: #fff;
-  color: #44d;
+  color: #111;
 }
 
 #sidebar {
@@ -46,11 +46,10 @@ html, body {
   left: 0;
   bottom: 0;
   position: fixed;
-  max-width: 300px;
-  background-color: #44d;
-  color: #111;
+  background-color: #111;
+  color: #ddd;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   white-space: nowrap;
   display: none;
   opacity: 0.9;
@@ -72,7 +71,7 @@ html, body {
 
 #sidebar a:hover {
   background-color: #fff;
-  color: #44d;
+  color: #111;
 }
 
 #linksarea {
