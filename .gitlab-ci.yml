@@ -58,10 +58,8 @@ pages:
 
 release-npm:
   stage: release
-  environment:
-    name: npm
   before_script:
-  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+  - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
   script:
   - npm publish
   rules:
@@ -70,8 +68,6 @@ release-npm:
 release-gitlab:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
-  environment:
-    name: npm
   script:
   - release-cli create --name "Release ${CI_COMMIT_TAG}" --tag-name ${CI_COMMIT_TAG}
   rules:
