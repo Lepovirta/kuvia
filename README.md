@@ -185,6 +185,16 @@ You can run the local Kuvia app from the `bin` directory to try your changes:
 ./bin/kuvia.js -o gallery.html -d myimages
 ```
 
+## Releasing
+
+To create a new release, run the following commands in the master branch:
+
+```bash
+npm version $VERSION
+git push
+git push --tags
+```
+
 ## License
 
 2-clause BSD license
