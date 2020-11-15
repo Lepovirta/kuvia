@@ -1,0 +1,68 @@
+image: node:12
+
+stages:
+- setup
+- test
+- deploy
+- release
+
+workflow:
+  rules:
+  - if: $CI_MERGE_REQUEST_ID
+  - if: $CI_COMMIT_BRANCH == "master"
+  - if: $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+  - node_modules/
+
+setup-js:
+  stage: setup
+  script:
+  - npm install
+
+test-js:
+  stage: test
+  script:
+  - npm run test
+
+lint-js:
+  stage: test
+  script:
+  - npm run lint
+
+audit-js:
+  stage: test
+  script:
+  - npm audit
+
+site-generation:
+  stage: test
+  script:
+  - ./bin/kuvia.js -o kuvia.html -r -d example
+
+pages:
+  stage: deploy
+  before_script:
+  - mkdir -p public
+  script:
+  - cp -r example public/
+  - cd public/example/
+  - ../../bin/kuvia.js -o index.html -r -d . --no-min
+  artifacts:
+    paths:
+    - public
+  rules:
+  - if: $CI_COMMIT_BRANCH == "master"
+
+# release-npm:
+#   stage: release
+#   environment:
+#     name: npm
+#   before_script:
+#   - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+#   script:
+#   - npm publish
+#   rules:
+#   - if: $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/
