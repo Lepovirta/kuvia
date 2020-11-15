@@ -3,6 +3,8 @@
 Kuvia is a simple image gallery for static web sites.
 Give it a list of image files, and you've got an image gallery that can be hosted in any web host.
 
+Checkout [this demo page](https://lepovirta.gitlab.io/kuvia/example/) for an example of what Kuvia generates.
+
 ## Usage
 
 ```
