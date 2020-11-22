@@ -33,7 +33,7 @@ Kuvia can be installed from [npm](https://www.npmjs.com/) using the following co
 npm install -g kuvia
 ```
 
-## Documentation
+## Usage
 
 Kuvia command line app is used for generating gallery pages.
 The app allows customizing what images are shown in the gallery.
@@ -159,6 +159,25 @@ If you don't want the page to be minified, use the `--no-min` flag:
 ```bash
 kuvia -o gallery.html -d images --no-min
 ```
+
+## Docker
+
+Alternatively, you can run Kuvia directly using Docker.
+Kuvia's Docker images are hosted in [Gitlab](https://gitlab.com/lepovirta/kuvia/container_registry).
+Example:
+
+```bash
+docker run --rm -it \
+    -v $(pwd):/workspace \
+    registry.gitlab.com/lepovirta/kuvia \
+    -d . -r -o index.html
+```
+
+In the example, the current directory is mounted as a volume in the `/workspace` directory in the Docker image.
+This is how we can provide pictures for Kuvia to find and produce the gallery HTML to.
+
+The Docker image treats the `/workspace` directory as its current directory, so we can just provide `.` as the directory parameter.
+Likewise, since we output the HTML to the `index.html` file, it will appear in the current directory.
 
 ## Hacking the source code
 
