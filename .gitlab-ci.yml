@@ -57,6 +57,9 @@ test-js:
   extends: .node-cache
   script:
   - npm run test
+  artifacts:
+    reports:
+      cobertura: coverage/cobertura-coverage.xml
 
 lint-js:
   stage: test

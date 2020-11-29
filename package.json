@@ -22,7 +22,7 @@
     "jest": "^26.0.1"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint web/*.js bin/*.js"
   },
   "repository": {
@@ -30,5 +30,11 @@
     "url": "https://gitlab.com/lepovirta/kuvia.git"
   },
   "author": "Jaakko Pallari",
-  "license": "BSD-2-Clause"
+  "license": "BSD-2-Clause",
+  "jest": {
+    "coverageReporters": [
+      "text",
+      "cobertura"
+    ]
+  }
 }
