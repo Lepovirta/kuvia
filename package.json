@@ -7,7 +7,7 @@
     "kuvia": "bin/kuvia.js"
   },
   "dependencies": {
-    "browserify": "^16.5.1",
+    "browserify": "^16.5.2",
     "glob": "^7.1.6",
     "handlebars": "^4.7.6",
     "node-getopt": "^0.3.2",
