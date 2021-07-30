@@ -16,6 +16,8 @@
     "uglifyify": "^5.0.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "eslint": "^7.31.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
@@ -23,7 +25,8 @@
   },
   "scripts": {
     "test": "jest --coverage",
-    "lint": "eslint web/*.js bin/*.js"
+    "lint": "eslint web/*.js bin/*.js",
+    "githooks": "node setup-hooks.js"
   },
   "repository": {
     "type": "git",

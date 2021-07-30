@@ -113,7 +113,7 @@ kuvia -o gallery.html \
 ### Using JSON resource as an image source
 
 Instead of specifying a static list of files, a JSON resource can be specified.
-When the gallery page is opened, the gallery loads the resource and uses the contents as the image list. 
+When the gallery page is opened, the gallery loads the resource and uses the contents as the image list.
 The resource contents must be in JSON array format where each element is a path to an image.
 A gallery that uses a JSON resource can be generated using the following command:
 
@@ -203,6 +203,14 @@ You can run the local Kuvia app from the `bin` directory to try your changes:
 ```bash
 ./bin/kuvia.js -o gallery.html -d myimages
 ```
+
+If you're going to make commits, make sure to install the Git hooks first:
+
+```bash
+npm run githooks
+```
+
+The Git hooks ensure that the commits follow the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) style.
 
 ## Releasing
 
