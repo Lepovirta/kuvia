@@ -1,14 +1,14 @@
-FROM node:12 AS build
+FROM node:14 AS build
 
 WORKDIR /app
 COPY bin/ bin/
 COPY resources/ resources/
 COPY web/ web/
-COPY package.json package-lock.json ./
-RUN npm ci --only=production
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 RUN mkdir -p /workspace && chmod -R 777 /workspace
 
-FROM gcr.io/distroless/nodejs-debian10:12
+FROM gcr.io/distroless/nodejs-debian10:14
 COPY --from=build /app /app
 COPY --from=build /workspace /workspace
 WORKDIR /workspace

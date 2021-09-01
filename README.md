@@ -27,10 +27,11 @@ Kuvia page generator
 
 ## Installation
 
-Kuvia can be installed from [npm](https://www.npmjs.com/) using the following command:
+Kuvia can be installed from [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/) using the following command:
 
 ```bash
 npm install -g kuvia
+yarn install -g kuvia
 ```
 
 ## Usage
@@ -187,11 +188,11 @@ You can pull the latest development version from Gitlab:
 git clone https://gitlab.com/lepovirta/kuvia.git
 ```
 
-Once you've fetched the source code, you can install the dependencies locally using [npm](https://www.npmjs.com/):
+Once you've fetched the source code, you can install the dependencies locally using [Yarn](https://yarnpkg.com/):
 
 ```bash
 cd kuvia
-npm install
+yarn install
 ```
 
 The JS source code for the UI can be found from `src` directory.
@@ -207,7 +208,7 @@ You can run the local Kuvia app from the `bin` directory to try your changes:
 If you're going to make commits, make sure to install the Git hooks first:
 
 ```bash
-npm run githooks
+yarn run githooks
 ```
 
 The Git hooks ensure that the commits follow the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) style.
@@ -217,7 +218,7 @@ The Git hooks ensure that the commits follow the [Conventional Commit](https://w
 To create a new release, run the following commands in the master branch:
 
 ```bash
-npm version $VERSION
+yarn version $VERSION
 git push
 git push --tags
 ```
@@ -227,3 +228,4 @@ git push --tags
 2-clause BSD license
 
 See [LICENSE](LICENSE) for further detail.
+
